@@ -52,3 +52,35 @@ SELECT Navn, COUNT(Navn) FROM
     ON sjanger.SjangerID = sjangerfilm.SjangerID)
     GROUP BY Navn
 ;
+
+#h
+Select Navn FROM
+    (skuespiller JOIN
+        (SELECT SkuespillerID FROM
+            (skuespillerifilm JOIN
+                (SELECT FilmID FROM film
+                    WHERE film.Tittel = 'Ace Ventura: Pet Detective'
+                ) AS pt
+            ON skuespillerifilm.FilmID = pt.FilmID)
+            WHERE SkuespillerID NOT IN
+                (SELECT SkuespillerID FROM
+                    (skuespillerifilm JOIN
+                        (SELECT FilmID FROM film
+                            WHERE film.Tittel = 'Ace Ventura: When Nature Calls'
+                        ) AS wnc
+                    ON skuespillerifilm.FilmID = wnc.FilmID)
+                )
+        ) as skuespilleririktigfilm
+    ON skuespiller.SkuespillerID = skuespilleririktigfilm.SkuespillerID)
+;
+
+#i
+SELECT Tittel, film.FilmID, AVG(Fødselsår) AS aby FROM
+    (film JOIN
+        (skuespillerifilm JOIN
+            skuespiller
+        ON skuespillerifilm.SkuespillerID = skuespiller.SkuespillerID)
+    ON film.FilmID = skuespillerifilm.SkuespillerID)
+    GROUP BY film.FilmID
+    HAVING aby > ALL(SELECT AVG(Fødselsår) FROM skuespiller)
+;
