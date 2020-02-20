@@ -50,20 +50,20 @@ CREATE TABLE SkuespillerIFilm (
 
 INSERT INTO Regissør (RegissørID, Navn)
 VALUES
-(1, "Peyton Reed"),
-(2, "Tom Shadyac");
+(1, 'Peyton Reed'),
+(2, 'Tom Shadyac');
         
 INSERT INTO Skuespiller (SkuespillerID, Navn, Fødselsår)
 VALUES
-(1, "Jim Carrey", 1962);
+(1, 'Jim Carrey', 1962);
 
 INSERT INTO Film (FilmID, Tittel, Produksjonsår, RegissørID)
 VALUES
-(1, "Yes Man", 2008, 1);
+(1, 'Yes Man', 2008, 1);
 
 INSERT INTO SkuespillerIFilm(FilmID, SkuespillerID, Rolle)
 VALUES
-(1, 1, "Card");
+(1, 1, 'Card');
 
 UPDATE Skuespiller
 SET Navn = 'James Eugene Carrey'
