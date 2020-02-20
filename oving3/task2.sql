@@ -44,3 +44,11 @@ SELECT COUNT(Navn) FROM
     skuespiller
     WHERE Navn LIKE 'C%'
 ;
+
+#g
+SELECT Navn, COUNT(Navn) FROM
+    (sjanger JOIN
+        (SELECT SjangerID, FilmID FROM sjangerforfilm) AS sjangerfilm
+    ON sjanger.SjangerID = sjangerfilm.SjangerID)
+    GROUP BY Navn
+;
