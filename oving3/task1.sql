@@ -20,12 +20,12 @@ CREATE TABLE Sjanger (
 );
 
 CREATE TABLE SjangerForFilm (
-    FilmID int,
     SjangerID int,
-    PRIMARY KEY (FilmID, SjangerID),
+    FilmID int,
+    PRIMARY KEY (SjangerID, FilmID),
     CONSTRAINT fk_sjanger
-        FOREIGN KEY (SjangerID)REFERENCES Sjanger (SjangerID),
-        
+        FOREIGN KEY (SjangerID)
+            REFERENCES Sjanger (SjangerID),
     CONSTRAINT fk_film
         FOREIGN KEY (FilmID)
             REFERENCES Film (FilmID)
