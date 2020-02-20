@@ -5,12 +5,6 @@ project.lock.json
 *.pyc
 nupkg/
 
-# Visual Studio Code
-.vscode
-
-# Rider
-.idea
-
 # User-specific files
 *.suo
 *.user
