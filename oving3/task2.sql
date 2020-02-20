@@ -38,3 +38,9 @@ SELECT DISTINCT Tittel FROM
     ON skuespillerifilm.SkuespillerID = filmskuespiller.SkuespillerID
     AND skuespillerifilm.FilmID = filmskuespiller.FilmID)
 ;
+
+#f
+SELECT COUNT(Navn) FROM
+    skuespiller
+    WHERE Navn LIKE 'C%'
+;
