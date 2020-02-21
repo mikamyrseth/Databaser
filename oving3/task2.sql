@@ -48,11 +48,11 @@ SELECT COUNT(Navn) FROM
 ;
 
 #g
-SELECT Navn, COUNT(Navn) FROM
+SELECT Navn, COUNT(FilmID) FROM
     (sjanger JOIN
         (SELECT SjangerID, FilmID FROM sjangerforfilm) AS sjangerfilm
     ON sjanger.SjangerID = sjangerfilm.SjangerID)
-    GROUP BY Navn
+    GROUP BY sjangerfilm.SjangerID
 ;
 
 #h
