@@ -42,13 +42,13 @@ SELECT DISTINCT Tittel FROM
 ;
 
 #f
-SELECT COUNT(Navn) FROM
+SELECT COUNT(Navn) AS `Skuespillere med første bokstav C` FROM
     skuespiller
     WHERE Navn LIKE 'C%'
 ;
 
 #g
-SELECT Navn, COUNT(FilmID) FROM
+SELECT Navn, COUNT(FilmID) AS `Antall filmer i sjanger` FROM
     (sjanger JOIN
         (SELECT SjangerID, FilmID FROM sjangerforfilm) AS sjangerfilm
     ON sjanger.SjangerID = sjangerfilm.SjangerID)
@@ -77,12 +77,12 @@ Select Navn FROM
 ;
 
 #i
-SELECT Tittel, film.FilmID, AVG(Fødselsår) AS aby FROM
+SELECT Tittel, film.FilmID, AVG(Fødselsår) AS `Gjennomsnittlig fødselsår` FROM
     (film JOIN
         (skuespillerifilm JOIN
             skuespiller
         ON skuespillerifilm.SkuespillerID = skuespiller.SkuespillerID)
     ON film.FilmID = skuespillerifilm.SkuespillerID)
     GROUP BY film.FilmID
-    HAVING aby > ALL(SELECT AVG(Fødselsår) FROM skuespiller)
+    HAVING `Gjennomsnittlig fødselsår` > ALL(SELECT AVG(Fødselsår) FROM skuespiller)
 ;
