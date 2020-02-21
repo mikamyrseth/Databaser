@@ -1,10 +1,8 @@
-DROP TABLE Regissør;
 CREATE TABLE Regissør (
     RegissørID int NOT NULL AUTO_INCREMENT PRIMARY KEY,
     Navn varchar(40)
 );
 
-DROP TABLE Film;
 CREATE TABLE Film (
     FilmID int PRIMARY KEY,
     Tittel varchar(40),
@@ -15,14 +13,12 @@ CREATE TABLE Film (
             REFERENCES Regissør (RegissørID)
 );
 
-DROP TABLE Sjanger;
 CREATE TABLE Sjanger (
     SjangerID int PRIMARY KEY,
     Navn varchar(40),
     Beskrivelse varchar(140)
 );
 
-DROP TABLE SjangerForFilm;
 CREATE TABLE SjangerForFilm (
     SjangerID int,
     FilmID int,
@@ -36,14 +32,12 @@ CREATE TABLE SjangerForFilm (
             ON DELETE CASCADE
 );
 
-DROP TABLE Skuespiller;
 CREATE TABLE Skuespiller (
     SkuespillerID int PRIMARY KEY,
     Navn varchar(40),
     Fødselsår int
 );
 
-DROP TABLE SkuespillerIFilm;
 CREATE TABLE SkuespillerIFilm (
     FilmID int,
     SkuespillerID int,
@@ -53,6 +47,8 @@ CREATE TABLE SkuespillerIFilm (
         FOREIGN KEY (SkuespillerID)
             REFERENCES Skuespiller (SkuespillerID)
 );
+
+/*
 
 INSERT INTO Regissør (RegissørID, Navn) VALUES
     (1, 'Peyton Reed'),
@@ -73,3 +69,5 @@ UPDATE Skuespiller
 
 DELETE FROM Regissør 
     WHERE RegissørID = 2;
+
+ */
