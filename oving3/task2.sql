@@ -2,11 +2,13 @@
 SELECT FilmID, Tittel, Produksjonsår, RegissørID FROM film;
 
 #b
-SELECT Navn FROM skuespiller
+SELECT Navn FROM
+    skuespiller
     WHERE 1960 < Fødselsår;
 
 #c
-SELECT Navn FROM skuespiller
+SELECT Navn FROM
+    skuespiller
     WHERE 1979 < Fødselsår AND Fødselsår < 1990
     ORDER BY Navn;
 
@@ -32,8 +34,8 @@ SELECT DISTINCT Tittel FROM
                     (regissør JOIN
                         skuespiller
                     ON regissør.Navn = skuespiller.Navn)
-                ) AS par
-            ON film.RegissørID = par.RegissørID)
+                ) AS navnpar
+            ON film.RegissørID = navnpar.RegissørID)
         ) as filmskuespiller
     ON skuespillerifilm.SkuespillerID = filmskuespiller.SkuespillerID
     AND skuespillerifilm.FilmID = filmskuespiller.FilmID)
