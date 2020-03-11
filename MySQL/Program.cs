@@ -10,7 +10,7 @@ namespace MySQL
   {
 
     static void Main(string[] args) {
-      string connStr = "server=localhost;user=root;database=mysql;port=3306;password=root";
+      string connStr = "server=localhost;user=root;database=superduperdatabase;port=3306;password=root";
       MySqlConnection conn = new MySqlConnection(connStr);
       try {
         Console.WriteLine("Connecting to MySQL...");
