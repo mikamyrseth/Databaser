@@ -113,7 +113,7 @@ namespace MySQL
     }
 
     public static bool CreateNewSeason(int seriesID, int seasonNumber, string title, string description) {
-      string sql = $"INSERT INTO Sesong (SerieID,  Sesongnummer, sesongbeskrivelse, sesongTittel) VALUES ({seriesID}, {seasonNumber}, '{title}', '{description}');";
+      string sql = $"INSERT INTO Sesong (SerieID,  Sesongnummer, sesongTittel, sesongbeskrivelse) VALUES ({seriesID}, {seasonNumber}, '{title}', '{description}');";
       return SQLInsert(sql) != -1;
     }
 
