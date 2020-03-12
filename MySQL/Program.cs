@@ -15,6 +15,7 @@ namespace MySQL
 
     private Program() {
       this._commands.Add("create movie", this.CreateMovie);
+      this._commands.Add("create creator", this.CreateCreator);
       this._commands.Add("help", this.Help);
       this._commands.Add("exit", this.Quit);
       this._commands.Add("quit", this.Quit);
@@ -70,6 +71,35 @@ namespace MySQL
       int birthYear;
       if(!PromptForInt(out birthYear, new ReasonableYearFilter(0))){
         return;
+      }
+
+    }
+    private bool PromptForDatabaseObject<IDataBaseObject>(string tableName, out int objectID) {
+      while(true) {
+        Console.WriteLine("Enter name");
+        string userInput = Console.ReadLine();
+        if (userInput == "cancel") {
+          Console.WriteLine("Command cancelled");
+          objectID = -1;
+          return false;
+        }
+        List<IDatabaseObject> objectList = API.GetObjectByName<IDataBaseObject>(userInput, tableName);
+        if (objectList.Count > 1) {
+          Console.WriteLine("Please choose one of the following:");
+          List<int> IDs = new List<int>();
+          foreach (Creator creator in objectList) {
+            Console.WriteLine($"\tID: {creator.ID}, Name: {creator.Name}, Birth year: {creator.BirthYear}");
+            IDs.Add(creator.ID);
+          }
+          Console.WriteLine("Enter the ID");
+          if (!this.PromptForInt(out objectID, new InIntCollectionFilter(IDs))) { }
+        } else if (objectList.Count == 0) {
+          Console.WriteLine("No results with that name");
+        } else {
+          objectID = objectList[0].ID;
+          return true;
+        }
+
       }
 
     }

@@ -1,7 +1,7 @@
 namespace MySQL
 {
 
-  public readonly struct Creator
+  public readonly struct Creator : IDatabaseObject
   {
 
     public int ID { get; }

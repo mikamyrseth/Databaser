@@ -21,6 +21,10 @@ namespace MySQL
       return creators;
     }
 
+    public static List<IDataBaseObject> GetObjectByName<IDataBaseObject>(string userInput, string tableName) {
+      return;
+    }
+
     public static bool CreateNewMovie(string title, int publishingYear, int duration, string description, int directorID, int scriptWriterID) {
       MySqlConnection conn = new MySqlConnection(connStr);
       bool SQLSuccess = true;
