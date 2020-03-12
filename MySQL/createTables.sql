@@ -183,3 +183,17 @@ CREATE TABLE Serieanmeldelse (
             REFERENCES Seer (SeerID)
             ON DELETE CASCADE
 );
+
+CREATE TABLE Utgivelser (
+    FilmSelskapID INT,
+    FilmID INT,
+    PRIMARY KEY (FilmSelskapID, FilmID),
+    CONSTRAINT fk_utgivelser_filmselskap
+        FOREIGN KEY (FilmSelskapID)
+            REFERENCES Filmselskap (FilmselskapID)
+            ON DELETE CASCADE,
+    CONSTRAINT fk_utgivelser_film
+        FOREIGN KEY (FilmID)
+            REFERENCES Film (FilmID)
+            ON DELETE CASCADE
+)

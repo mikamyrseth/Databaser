@@ -18,10 +18,32 @@ namespace MySQL
       this._commands.Add("create creator", this.CreateCreator);
       this._commands.Add("add actor to movie", this.AddActorToMovie);
       this._commands.Add("create company", this.CreateCompany);
+      this._commands.Add("add company as publisher", this.AddCompanyAsPublisher);
       this._commands.Add("help", this.Help);
       this._commands.Add("exit", this.Quit);
       this._commands.Add("quit", this.Quit);
       this.Start();
+    }
+
+    private void AddCompanyAsPublisher(){
+      Console.WriteLine("Enter a movie");
+      int movieID;
+      if(!this.PromptForDatabaseObject<Country>("Film", out movieID)){
+        return;
+      }
+
+      Console.WriteLine("Enter a company");
+      int companyID;
+      if(!this.PromptForDatabaseObject<Company>("Filmselskap", out companyID)){
+        return;
+      }
+
+      if (API.AddCompanyAsPublisher(movieID, companyID)) {
+        Console.WriteLine("You have added a published to the movie 🙌");
+      } else {
+        Console.WriteLine("Oops. Something went hooribly wrong... 😢");
+      }  
+
     }
 
     private void CreateCompany(){

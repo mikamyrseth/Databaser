@@ -83,6 +83,11 @@ namespace MySQL
       return SQLInsert(sql);
     }
 
+    public static bool AddCompanyAsPublisher(int movieID, int companyID) {
+      string sql = $"INSERT INTO  Utgivelser (FilmselskapID, FilmID) VALUES ({movieID}, {companyID});";
+      return SQLInsert(sql);
+    }
+
     private static bool SQLInsert(string sql){
       MySqlConnection conn = new MySqlConnection(connStr);
       bool SQLSuccess = true;
