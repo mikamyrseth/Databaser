@@ -75,6 +75,12 @@ namespace MySQL
       SQLFetch(sql);
 
     }
+
+    public static void SeeMoviesThatActorIsIn(int creatorID){
+      Console.WriteLine("The actors played in the following category");
+      string sql = "";
+      SQLFetch(sql);
+    }
     
     public static bool CreateNewMovie(string title, int publishingYear, int duration, string description, int directorID, int scriptWriterID) {
       string sql = $"INSERT INTO Film (filmTittel, utgivelesår, lengde, filmbeskrivelse) VALUES ('{title}', {publishingYear}, {duration}, '{description}');";

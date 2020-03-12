@@ -25,6 +25,7 @@ namespace MySQL
       this._commands.Add("create category", this.CreateCategory);
       this._commands.Add("add category to movie", this.AddCategoryToMovie);
       this._commands.Add("see actor roles", this.SeeActorRoles);
+      this._commands.Add("see movies that actor is in", this.SeeMoviesThatActorIsIn);
       this._commands.Add("see company with most movies in category", SeeCompanyWithMostMoviesInCategory);
       // There was an empty row here.
       //this._commands.Add("create series review", this.CreateSeriesReview);
@@ -34,6 +35,14 @@ namespace MySQL
       this.Start();
     }
 
+    private void SeeMoviesThatActorIsIn(){
+      Console.WriteLine("Please enter a creator");
+      if(!this.PromptForDatabaseObject<Creator>("kreatørNavn", "Kreatør", out int creatorID)){
+        return;
+      }
+
+      API.SeeMoviesThatActorIsIn(creatorID);
+    }
     private void SeeCompanyWithMostMoviesInCategory(){
       Console.WriteLine("Please choose a company");
       if(!this.PromptForDatabaseObject<Company>("selskapsnavn", "Filmselskap", out int companyID)){
@@ -51,7 +60,9 @@ namespace MySQL
 
     private void SeeActorRoles() {
       Console.WriteLine("Enter actor");
-      if(!this.PromptForDatabaseObject<Creator>("kreatørNav", "Kreatør", out int actorID))
+      if(!this.PromptForDatabaseObject<Creator>("kreatørNav", "Kreatør", out int actorID)){
+        return;
+      }
       
       API.SeeActorRoles(actorID);
     }
