@@ -61,7 +61,7 @@ namespace MySQL
 
     private void SeeActorRoles() {
       Console.WriteLine("Enter actor");
-      if(!this.PromptForDatabaseObject<Creator>("kreatørNav", "Kreatør", out int actorID)){
+      if(!this.PromptForDatabaseObject<Creator>("kreatørNavn", "Kreatør", out int actorID)){
         return;
       }
       

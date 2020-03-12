@@ -9,7 +9,7 @@ namespace MySQL
   public static class API
   {
 
-    private const string ConnectionString = "server=localhost;user=root;database=superduperdatabase;port=3306;password=root;";
+    private const string ConnectionString = "server=localhost;user=root;database=MySQL;port=3306;password=root;";
 
     public static Creator GetCreatorByID(int id) {
       Creator creator = new Creator();
@@ -56,17 +56,9 @@ namespace MySQL
     }
 
     public static void SeeActorRoles(int actorID){
-      Console.WriteLine($"The actor has had the follwing roles");
-      string sql = ""+
-      "SELECT rolle FROM ("+
-      " ("+
-      $"  SELECT KreatørID FROM Kreatør WHERE KreatørID = {actorID}"+
-      "   AS riktigkreatør JOIN" +
-      "   SkuespillerIFilm" +
-      "   ON riktigkreatør.KreatørID = SkuespillerIFilm.KreatørID" +
-      ");";
+      Console.WriteLine("The actor has had the following roles");
+      string sql = $"SELECT rolle FROM (SELECT KreatørID FROM Kreatør WHERE KreatørID = {actorID}) AS riktigkreatør JOIN SkuespillerIFilm ON riktigkreatør.KreatørID = SkuespillerIFilm.KreatørID;";
       SQLFetch(sql);
-
     }
 
     public static void SeeCompanyWithMostMoviesInCategory(int categoryID){
@@ -78,7 +70,7 @@ namespace MySQL
     public static void SeeMoviesThatActorIsIn(int creatorID){
       Console.WriteLine("The actors played in the movie is");
       string sql = ""+
-      "SELECT filmTittel FROM ("+
+      "SELECT filmTittel FROM (" +
       "("+
       $" SELECT FilmID FROM SkuespillerIFilm WHERE KreatørID = {creatorID}"+
       ") as riktigkreatør JOIN" +
