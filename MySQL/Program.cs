@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Internal;
+using System;
 
 using MySql.Data;
 using MySql.Data.MySqlClient;
@@ -14,7 +15,7 @@ namespace MySQL
     private Dictionary<string, command> commands = new Dictionary<string, command>() {};
 
     private bool _running = true;
-
+    
     private void CreateMovie(){
     
       Console.WriteLine("Enter movie title");
@@ -64,6 +65,17 @@ namespace MySQL
     }
 
     private void CreateCreator(){
+      Console.WriteLine("Please enter a name");
+      string creatorName;
+      if(!PromptForString(out creatorName, new MaxLengthFilter(40))){
+        return;
+      }
+
+      Console.WriteLine("Please enter the creators birthyear");
+      int birthYear;
+      if(!PromptForInt(out birthYear, new ReasonableYearFilter(0))){
+        return;
+      }
 
     }
 
@@ -184,8 +196,3 @@ namespace MySQL
   }
 
 }
-
-/*
-                while (rdr.Read()){
-                    Console.WriteLine(rdr[0] + " -- " + rdr[1]);
-                }*/
