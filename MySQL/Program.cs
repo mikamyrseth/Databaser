@@ -16,6 +16,7 @@ namespace MySQL
       this._commands.Add("create creator", this.CreateCreator);
       this._commands.Add("add actor to movie", this.AddActorToMovie);
       this._commands.Add("create company", this.CreateCompany);
+      this._commands.Add("create country", this.CreateCountry);
       this._commands.Add("add company as publisher", this.AddCompanyAsPublisher);
       this._commands.Add("create series", this.CreateSeries);
       this._commands.Add("create user", this.CreateUser);
@@ -34,7 +35,7 @@ namespace MySQL
       this._commands.Add("quit", this.Quit);
       this.Start();
     }
-
+    
     private void SeeMoviesThatActorIsIn(){
       Console.WriteLine("Please enter a creator");
       if(!this.PromptForDatabaseObject<Creator>("kreatørNavn", "Kreatør", out int creatorID)){
@@ -65,6 +66,16 @@ namespace MySQL
       }
       
       API.SeeActorRoles(actorID);
+    }
+
+    private void CreateCountry(){
+      Console.WriteLine("Enter a name");
+      if(!this.PromptForString(out string countryName, new MaxLengthFilter(40))){
+        return;
+      }
+
+      API.CreateCountry(countryName);
+
     }
 
     private void CreateEpisode() {
