@@ -9,20 +9,50 @@ namespace MySQL
   public static class API
   {
 
-    private const string connStr = "server=localhost;user=root;database=superduperdatabase;port=3306;password=root;";
+    private const string ConnectionString = "server=localhost;user=root;database=MySQL;port=3306;password=root;";
 
     public static Creator GetCreatorByID(int id) {
-      return new Creator(1, 1999, "Mika Myrseth");
+      Creator creator = new Creator();
+      creator.Initialize(1, 1999, "Mika Myrseth");
+      return creator;
     }
 
     public static List<Creator> GetCreatorsByName(string name) {
       List<Creator> creators = new List<Creator>();
-      creators.Add(new Creator(1, 1999, "Mika Myrseth"));
+      Creator creator = new Creator();
+      creator.Initialize(1, 1999, "Mika Myrseth");
+      creators.Add(creator);
       return creators;
     }
 
-    public static List<IDataBaseObject> GetObjectByName<IDataBaseObject>(string userInput, string tableName) {
-      return;
+    public static ICollection<T> GetObjectsByName<T>(string name, string columnName, string tableName)
+      where T : DatabaseObject, new() {
+      MySqlConnection connection = null;
+      List<T> list = new List<T>();
+      try {
+        connection = new MySqlConnection(ConnectionString);
+        connection.Open();
+
+        string query = $"SELECT * FROM {tableName} WHERE {tableName}.{columnName} = '{name}';";
+        MySqlCommand command = new MySqlCommand(query, connection);
+        MySqlDataReader reader = command.ExecuteReader();
+
+        while (reader.Read()) {
+          object[] fields = new object[reader.FieldCount];
+          for (int i = 0; i < fields.Length; i++) {
+            fields[i] = reader[i];
+          }
+          T @new = new T();
+          @new.Initialize(fields);
+          list.Add(@new);
+        }
+        reader.Close();
+      } catch (Exception e) {
+        Console.WriteLine(e);
+      } finally {
+        connection?.Close();
+      }
+      return list;
     }
 
     public static bool CreateNewMovie(string title, int publishingYear, int duration, string description, int directorID, int scriptWriterID) {
@@ -48,7 +78,7 @@ namespace MySQL
     }
 
     public static bool CreateCompany(string companyName, int countryID) {
-      string sql = $"INSERT INTO  SkuespillerIFilm (selskapsnavn, LandID) VALUES ('{companyName}', {countryID});";
+      string sql = $"INSERT INTO Filmselskap (selskapsnavn, LandID) VALUES ('{companyName}', {countryID});";
       return SQLInsert(sql) != -1;
     }
 
@@ -57,23 +87,23 @@ namespace MySQL
       return SQLInsert(sql) != -1;
     }
 
-    public static bool CreateNewSeries(string title, string description){
-      string sql = $"INSERT INTO  Serie (serieTittel, seriebeskrivelse) VALUES ({title}, {description});";
+    public static bool CreateNewSeries(string title, string description) {
+      string sql = $"INSERT INTO Serie (serieTittel, seriebeskrivelse) VALUES ('{title}', '{description}');";
       return SQLInsert(sql) != -1;
     }
 
-    public static bool CreateNewUser(string email){
-      string sql = $"INSERT INTO  Seer (epost) VALUES ({email});";
+    public static bool CreateNewUser(string email) {
+      string sql = $"INSERT INTO  Seer (epost) VALUES ('{email}');";
       return SQLInsert(sql) != -1;
     }
 
-    public static bool CreateNewMovieReview(int userID, int movieID, string comment, int rating){
+    public static bool CreateNewMovieReview(int userID, int movieID, string comment, int rating) {
       string sql = $"INSERT INTO  Filmanmeldelse (SeerID, FilmID, filmKommentar, filmVurdering) VALUES ({userID}, {movieID}, '{comment}', {rating});";
       return SQLInsert(sql) != -1;
     }
 
     public static bool CreateNewCategory(string name){
-      string sql = $"INSERT INTO  Kategory (kategoriNavn) VALUES ('{name}');";
+      string sql = $"INSERT INTO  Kategori (kategoriNavn) VALUES ('{name}');";
       return SQLInsert(sql) != -1;
     }
 
@@ -87,8 +117,8 @@ namespace MySQL
       return SQLInsert(sql) != -1;
     }
 
-    private static long SQLInsert(string sql){
-      MySqlConnection conn = new MySqlConnection(connStr);
+    private static long SQLInsert(string sql) {
+      MySqlConnection conn = new MySqlConnection(ConnectionString);
       bool SQLSuccess = true;
       long movieID = -1;
       try {
