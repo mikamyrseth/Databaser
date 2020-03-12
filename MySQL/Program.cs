@@ -16,6 +16,7 @@ namespace MySQL
       this._commands.Add("create creator", this.CreateCreator);
       this._commands.Add("add actor to movie", this.AddActorToMovie);
       this._commands.Add("create company", this.CreateCompany);
+      this._commands.Add("create country", this.CreateCountry);
       this._commands.Add("add company as publisher", this.AddCompanyAsPublisher);
       this._commands.Add("create series", this.CreateSeries);
       this._commands.Add("create user", this.CreateUser);
@@ -26,6 +27,7 @@ namespace MySQL
       this._commands.Add("add category to movie", this.AddCategoryToMovie);
       this._commands.Add("create episode", this.CreateEpisode);
       this._commands.Add("see actor roles", this.SeeActorRoles);
+      this._commands.Add("see movies that actor is in", this.SeeMoviesThatActorIsIn);
       this._commands.Add("see company with most movies in category", this.SeeCompanyWithMostMoviesInCategory);
       //this._commands.Add("create series review", this.CreateSeriesReview);
       this._commands.Add("help", this.Help);
@@ -33,11 +35,23 @@ namespace MySQL
       this._commands.Add("quit", this.Quit);
       this.Start();
     }
+    
+    private void SeeMoviesThatActorIsIn(){
+      Console.WriteLine("Please enter a creator");
+      if(!this.PromptForDatabaseObject<Creator>("kreatørNavn", "Kreatør", out int creatorID)){
+        return;
+      }
 
+      API.SeeMoviesThatActorIsIn(creatorID);
+    }
     private void SeeCompanyWithMostMoviesInCategory() {
-      
+      Console.WriteLine("Please choose a company");
+      if(!this.PromptForDatabaseObject<Company>("selskapsnavn", "Filmselskap", out int companyID)){
+        return;
+      }
+
       Console.WriteLine("Please choose a category");
-      if(!this.PromptForDatabaseObject<Category>("kategoriNavn", "Kategori", out int categoryID)) {
+      if(!this.PromptForDatabaseObject<Category>("kategoriNavn", "Kategori", out int categoryID)){
         return;
       }
 
@@ -47,11 +61,21 @@ namespace MySQL
 
     private void SeeActorRoles() {
       Console.WriteLine("Enter actor");
-      if (!this.PromptForDatabaseObject<Creator>("kreatørNav", "Kreatør", out int actorID)) {
+      if(!this.PromptForDatabaseObject<Creator>("kreatørNav", "Kreatør", out int actorID)){
         return;
       }
       
       API.SeeActorRoles(actorID);
+    }
+
+    private void CreateCountry(){
+      Console.WriteLine("Enter a name");
+      if(!this.PromptForString(out string countryName, new MaxLengthFilter(40))){
+        return;
+      }
+
+      API.CreateCountry(countryName);
+
     }
 
     private void CreateEpisode() {
@@ -394,11 +418,12 @@ namespace MySQL
           return true;
         }
         if (objectList.Count == 0) {
-          Console.WriteLine("No results with that name");
+          Console.WriteLine("No results with that name. Try again (or try creating one)");
         } else {
           objectID = objectList[0].ID;
           return true;
         }
+        Console.WriteLine("Type \"cancel\" to cancel");
       }
     }
 
@@ -469,7 +494,7 @@ namespace MySQL
         try {
           this._commands[command]();
         } catch {
-          Console.WriteLine("Command not found");
+          Console.WriteLine("Command not found try 'help'");
         }
       }
     }

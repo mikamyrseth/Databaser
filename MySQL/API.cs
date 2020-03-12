@@ -9,7 +9,7 @@ namespace MySQL
   public static class API
   {
 
-    private const string ConnectionString = "server=localhost;user=root;database=MySQL;port=3306;password=root;";
+    private const string ConnectionString = "server=localhost;user=root;database=superduperdatabase;port=3306;password=root;";
 
     public static Creator GetCreatorByID(int id) {
       Creator creator = new Creator();
@@ -74,6 +74,19 @@ namespace MySQL
       string sql = $"SELECT RelevantCompanies.FilmselskapID, RelevantCompanies.selskapsnavn, MAX(RelevantCompanies.Count) FROM (SELECT RelevantUtgivelse.FilmselskapID, RelevantUtgivelse.selskapsnavn, COUNT(FilmID) as Count  FROM (SELECT filmselskap.FilmselskapID, filmselskap.selskapsnavn, Relevant.FilmID FROM filmselskap JOIN utgivelser ON filmselskap.FilmselskapID = utgivelser.FilmSelskapID JOIN (SELECT FilmID FROM Film WHERE Film.SerieID IS NULL ) AS Movies  ON utgivelser.FilmID = Movies.FilmID JOIN (SELECT * FROM filmikategori  WHERE filmikategori.KategoriID = {categoryID} ) AS Relevant ON Movies.FilmID = Relevant.FilmID ) AS RelevantUtgivelse GROUP BY RelevantUtgivelse.FilmselskapID, RelevantUtgivelse.selskapsnavn ) AS RelevantCompanies GROUP BY RelevantCompanies.FilmselskapID, RelevantCompanies.selskapsnavn;";
       SQLFetch(sql);
     }
+
+    public static void SeeMoviesThatActorIsIn(int creatorID){
+      Console.WriteLine("The actors played in the movie is");
+      string sql = ""+
+      "SELECT filmTittel FROM ("+
+      "("+
+      $" SELECT FilmID FROM SkuespillerIFilm WHERE KreatørID = {creatorID}"+
+      ") as riktigkreatør JOIN" +
+      " Film"+
+      "ON Film.FilmID = riktigkreatør.FilmID"+
+      ");";
+      SQLFetch(sql);
+    }
     
     public static bool CreateNewMovie(string title, int publishingYear, int duration, string description, int directorID, int scriptWriterID) {
       string sql = $"INSERT INTO Film (filmTittel, utgivelesår, lengde, filmbeskrivelse) VALUES ('{title}', {publishingYear}, {duration}, '{description}');";
@@ -82,13 +95,18 @@ namespace MySQL
       return movieID != -1;
     }
 
+    public static bool CreateCountry(string countryName) {
+      string sql = $"INSERT INTO Land (landNavn) VALUES ('{countryName}');";
+      return SQLInsert(sql) != -1;
+    }
+
     public static bool CreateNewEpisode(string title, int publishingYear, int duration, string description, int directorID, int scriptWriterID, int seriesID, int seasonNumber) {
       string sql = $"INSERT INTO Film (filmTittel, utgivelesår, lengde, filmbeskrivelse, serieID, Sesongnummer) VALUES ('{title}', {publishingYear}, {duration}, '{description}', {seriesID}, {seasonNumber});";
       return SQLInsert(sql) != -1;
     }
 
     public static bool CreateNewCreator(string Name, int birthYear, int CountryID) {
-      string sql = $"INSERT INTO Kreatør (kreatørNavn, fødselsår, landID) VALUES ('{Name}', {birthYear}, {CountryID});";
+      string sql = $"INSERT INTO Kreatør (kreatørNavn, fødeslsår, landID) VALUES ('{Name}', {birthYear}, {CountryID});";
       return SQLInsert(sql) != -1;
     }
 
