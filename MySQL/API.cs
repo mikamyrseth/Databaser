@@ -10,6 +10,7 @@ namespace MySQL
   {
 
     private const string ConnectionString = "server=localhost;user=root;database=MySQL;port=3306;password=root;";
+    private int seriesID,
 
     public static Creator GetCreatorByID(int id) {
       Creator creator = new Creator();
@@ -62,14 +63,12 @@ namespace MySQL
       return movieID != -1;
     }
 
-    public static bool CreateNewEpisode(string title, int publishingYear, int duration, string description, int directorID, int scriptWriterID int seriesID, int seasonNumber){
-      string sql = $"INSERT INTO Film (filmTittel, utgivelesår, lengde, filmbeskrivelse, serieID, Sesongnummer) VALUES ('{title}', {publishingYear}, {duration}, '{description}', {seriesID}, {seasonNumber});";
-      return SQLInsert(sql) != -1;
-    }
+    public static bool CreateNewEpisode(string title, int publishingYear, int duration, string description, int directorID, int scriptWriterID
+    private int seasonNumber)
 
-    public static bool CreateNewCreator(string Name, int birthYear, int CountryID){
-        string sql = $"INSERT INTO Kreatør (kreatørNavn, fødselsår, landID) VALUES ('{Name}', {birthYear}, {CountryID});";
-        return SQLInsert(sql) != -1;
+    public static bool CreateNewCreator(string Name, int birthYear, int CountryID) {
+      string sql = $"INSERT INTO Kreatør (kreatørNavn, fødselsår, landID) VALUES ('{Name}', {birthYear}, {CountryID});";
+      return SQLInsert(sql) != -1;
     }
 
     public static bool AddActorToMovie(int creatorID, int movieID, string role) {
@@ -102,17 +101,17 @@ namespace MySQL
       return SQLInsert(sql) != -1;
     }
 
-    public static bool CreateNewCategory(string name){
+    public static bool CreateNewCategory(string name) {
       string sql = $"INSERT INTO  Kategori (kategoriNavn) VALUES ('{name}');";
       return SQLInsert(sql) != -1;
     }
 
-    public static bool AddCategoryToMovie(int categoryID, int movieID){
+    public static bool AddCategoryToMovie(int categoryID, int movieID) {
       string sql = $"INSERT INTO FilmIKategori (FilmID, KategoriID) VALUES ({movieID}, {categoryID});";
       return SQLInsert(sql) != -1;
     }
 
-    public static bool CreateNewSeason(int seriesID, int seasonNumber, string title, string description){
+    public static bool CreateNewSeason(int seriesID, int seasonNumber, string title, string description) {
       string sql = $"INSERT INTO Sesong (SerieID,  Sesongnummer, sesongbeskrivelse, sesongTittel) VALUES ({seriesID}, {seasonNumber}, '{title}', '{description}');";
       return SQLInsert(sql) != -1;
     }
@@ -131,7 +130,6 @@ namespace MySQL
         }
 
         movieID = cmd.LastInsertedId;
-
       } catch (Exception ex) {
         SQLSuccess = false;
         Console.WriteLine(ex.ToString());
@@ -139,12 +137,10 @@ namespace MySQL
         conn.Close();
         Console.WriteLine("Done.");
       }
-      if(SQLSuccess){
+      if (SQLSuccess) {
         return movieID;
-      } else {
-        return -1;
       }
+      return -1;
+    }
 
   }
-
-}

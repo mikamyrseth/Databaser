@@ -30,7 +30,7 @@ namespace MySQL
       this.Start();
     }
 
-    private void CreateEpisode(){
+    private void CreateEpisode() {
       Console.WriteLine("Enter episode title");
       if (!this.PromptForString(out string title, new MaxLengthFilter(40))) {
         return;
@@ -62,55 +62,54 @@ namespace MySQL
       }
 
       Console.WriteLine("Please Enter the series that the episode belowngs to");
-      if(!this.PromptForDatabaseObject<Series>("Serie", out int seriesID)){
+      if (!this.PromptForDatabaseObject<Series>("serieTittel", "Serie", out int seriesID)) {
         return;
       }
 
       Console.WriteLine("Please enter the season the episode belongs to.");
-      if(!this.PromptForDatabaseObject<Season>("Sesong", out int seasonNumber))
+      if (!this.PromptForDatabaseObject<Season>("sesongTittel", "Sesong", out int seasonNumber)) {
+        return;
+      }
 
-
-      if (
-        API.CreateNewEpisode(title, publishingYear, duration, description, directorID, scriptWriterID, seriesID, seasonNumber)) {
+      if (API.CreateNewEpisode(title, publishingYear, duration, description, directorID, scriptWriterID, seriesID, seasonNumber)) {
         Console.WriteLine("You have added a new movie 🙌");
       } else {
         Console.WriteLine("Oops. Something went hooribly wrong... 😢");
       }
     }
 
-    private void CreateSeason(){
+    private void CreateSeason() {
       Console.WriteLine("Please choose a series");
-      if(!this.PromptForDatabaseObject<Series>("Serie", out int seriesID)){
+      if (!this.PromptForDatabaseObject<Series>("Serie", out int seriesID)) {
         return;
       }
 
       Console.WriteLine("Please enter season number");
-      if(!this.PromptForInt(out int seasonNumber, new RangeFilter(1, 100))){
+      if (!this.PromptForInt(out int seasonNumber, new RangeFilter(1, 100))) {
         return;
       }
 
       Console.WriteLine("Please enter a title");
-      if(!this.PromptForString(out string title, new MaxLengthFilter(40))){
+      if (!this.PromptForString(out string title, new MaxLengthFilter(40))) {
         return;
       }
 
       Console.WriteLine("please enter a descirpiton");
-      if(!this.PromptForString(out string description, new MaxLengthFilter(140))){
+      if (!this.PromptForString(out string description, new MaxLengthFilter(140))) {
         return;
       }
 
-      if(API.CreateNewSeason(seriesID, seasonNumber, title, description)) {
+      if (API.CreateNewSeason(seriesID, seasonNumber, title, description)) {
         Console.WriteLine("You have added a new season 🙌");
       } else {
         Console.WriteLine("Oops. Something went hooribly wrong... 😢");
-      } 
-
+      }
     }
 
-    private void CreateCategory(){
+    private void CreateCategory() {
       Console.WriteLine("Please enter a name");
       string name;
-      if(!this.PromptForString(out name, new MaxLengthFilter(40))){
+      if (!this.PromptForString(out name, new MaxLengthFilter(40))) {
         return;
       }
 
@@ -118,18 +117,17 @@ namespace MySQL
         Console.WriteLine("You have added a category 🙌");
       } else {
         Console.WriteLine("Oops. Something went hooribly wrong... 😢");
-      } 
-
+      }
     }
 
-    private void AddCategoryToMovie(){
+    private void AddCategoryToMovie() {
       Console.WriteLine("Please choose a category");
-      if (!this.PromptForDatabaseObject<Category>("kategoriNavn", "Kategori", out int categoryID)){
+      if (!this.PromptForDatabaseObject<Category>("kategoriNavn", "Kategori", out int categoryID)) {
         return;
       }
 
       Console.WriteLine("Please choose a movie");
-      if(!this.PromptForDatabaseObject<Movie>("filmTittel", "Film", out int movieID)){
+      if (!this.PromptForDatabaseObject<Movie>("filmTittel", "Film", out int movieID)) {
         return;
       }
 
@@ -138,10 +136,9 @@ namespace MySQL
       } else {
         Console.WriteLine("Oops. Something went hooribly wrong... 😢");
       }
-
     }
 
-    private void CreateEpisodeReview(){
+    private void CreateEpisodeReview() {
       Console.WriteLine("Please enter a user");
       if (!this.PromptForDatabaseObject<User>("epost", "Seer", out int userID)) {
         return;
