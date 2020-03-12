@@ -149,7 +149,7 @@ CREATE TABLE FilmIKategori (
 
 CREATE TABLE Seer (
     SeerID INT AUTO_INCREMENT PRIMARY KEY,
-    epost VARCHAR(40)
+    epost VARCHAR(40) NOT NULL UNIQUE
 );
 
 CREATE TABLE Filmanmeldelse (

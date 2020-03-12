@@ -1,4 +1,5 @@
-﻿DROP TABLE Serieanmeldelse;
+﻿DROP TABLE Utgivelser;
+DROP TABLE Serieanmeldelse;
 DROP TABLE Filmanmeldelse;
 DROP TABLE Seer;
 DROP TABLE FilmIKategori;
