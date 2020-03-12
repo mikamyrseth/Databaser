@@ -68,7 +68,9 @@ namespace MySQL
       }
 
       Console.WriteLine("Please enter the season the episode belongs to.");
-      if(!this.PromptForDatabaseObject<Season>("Sesong", out int seasonNumber))
+      if(!this.PromptForDatabaseObject<Season>("Sesong", out int seasonNumber, new SeasonIsInSeriesFilter(seriesID))){
+        return;
+      }
 
 
       if (
