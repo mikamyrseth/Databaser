@@ -67,9 +67,9 @@ namespace MySQL
       return SQLInsert(sql) != -1;
     }
 
-    public static bool CreateNewCreator(string Name, int birthYear, int CountryID){
-        string sql = $"INSERT INTO Kreatør (kreatørNavn, fødselsår, landID) VALUES ('{Name}', {birthYear}, {CountryID});";
-        return SQLInsert(sql) != -1;
+    public static bool CreateNewCreator(string Name, int birthYear, int CountryID) {
+      string sql = $"INSERT INTO Kreatør (kreatørNavn, fødselsår, landID) VALUES ('{Name}', {birthYear}, {CountryID});";
+      return SQLInsert(sql) != -1;
     }
 
     public static bool AddActorToMovie(int creatorID, int movieID, string role) {
@@ -102,17 +102,17 @@ namespace MySQL
       return SQLInsert(sql) != -1;
     }
 
-    public static bool CreateNewCategory(string name){
+    public static bool CreateNewCategory(string name) {
       string sql = $"INSERT INTO  Kategori (kategoriNavn) VALUES ('{name}');";
       return SQLInsert(sql) != -1;
     }
 
-    public static bool AddCategoryToMovie(int categoryID, int movieID){
+    public static bool AddCategoryToMovie(int categoryID, int movieID) {
       string sql = $"INSERT INTO FilmIKategori (FilmID, KategoriID) VALUES ({movieID}, {categoryID});";
       return SQLInsert(sql) != -1;
     }
 
-    public static bool CreateNewSeason(int seriesID, int seasonNumber, string title, string description){
+    public static bool CreateNewSeason(int seriesID, int seasonNumber, string title, string description) {
       string sql = $"INSERT INTO Sesong (SerieID,  Sesongnummer, sesongbeskrivelse, sesongTittel) VALUES ({seriesID}, {seasonNumber}, '{title}', '{description}');";
       return SQLInsert(sql) != -1;
     }
@@ -131,7 +131,6 @@ namespace MySQL
         }
 
         movieID = cmd.LastInsertedId;
-
       } catch (Exception ex) {
         SQLSuccess = false;
         Console.WriteLine(ex.ToString());
@@ -139,12 +138,10 @@ namespace MySQL
         conn.Close();
         Console.WriteLine("Done.");
       }
-      if(SQLSuccess){
+      if (SQLSuccess) {
         return movieID;
-      } else {
-        return -1;
       }
+      return -1;
+    }
 
   }
-
-}
