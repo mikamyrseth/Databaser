@@ -3,13 +3,13 @@ namespace MySQL
 
   public abstract class Filter<T>
   {
-      public string ErrorMessage { get; }
 
-      public Filter(string errorMessage) {
-          this.ErrorMessage = errorMessage;
-      }
+    public Filter(string errorMessage) {
+      this.ErrorMessage = errorMessage;
+    }
+    public string ErrorMessage { get; }
 
-      public abstract bool Condition(T subject);
+    public abstract bool Condition(T subject);
 
   }
 
