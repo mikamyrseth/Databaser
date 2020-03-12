@@ -19,10 +19,48 @@ namespace MySQL
       this._commands.Add("add actor to movie", this.AddActorToMovie);
       this._commands.Add("create company", this.CreateCompany);
       this._commands.Add("add company as publisher", this.AddCompanyAsPublisher);
+      this._commands.Add("create series", this.CreateSeries);
+      this._commands.Add("create user", this.CreateUser);
       this._commands.Add("help", this.Help);
       this._commands.Add("exit", this.Quit);
       this._commands.Add("quit", this.Quit);
       this.Start();
+    }
+
+    private void CreateUser(){
+      Console.WriteLine("Please enter your email");
+      string email;
+      if (!this.PromptForString(out email, new MaxLengthFilter(40))){
+        return;
+      }
+
+      if (API.CreateNewUser(email)) {
+        Console.WriteLine("You have added a new user 🙌");
+      } else {
+        Console.WriteLine("Oops. Something went hooribly wrong... 😢");
+      } 
+
+    }
+
+    private void CreateSeries(){
+      Console.WriteLine("Enter the title");
+      string title;
+      if (!this.PromptForString(out title, new MaxLengthFilter(40))){
+        return;
+      }
+
+      Console .WriteLine("Enter a description");
+      string description;
+      if (!this.PromptForString(out description, new MaxLengthFilter(140))){
+        return;
+      }
+
+      if (API.CreateNewSeries(title, description)) {
+        Console.WriteLine("You have added a new series 🙌");
+      } else {
+        Console.WriteLine("Oops. Something went hooribly wrong... 😢");
+      }  
+
     }
 
     private void AddCompanyAsPublisher(){

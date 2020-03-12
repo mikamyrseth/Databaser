@@ -88,6 +88,16 @@ namespace MySQL
       return SQLInsert(sql);
     }
 
+    public static bool CreateNewSeries(string title, string description){
+      string sql = $"INSERT INTO  Serie (serieTittel, seriebeskrivelse) VALUES ({title}, {description});";
+      return SQLInsert(sql);
+    }
+
+    public static bool CreateNewUser(string email){
+      string sql = $"INSERT INTO  Seer (epost) VALUES ({email});";
+      return SQLInsert(sql);
+    }
+
     private static bool SQLInsert(string sql){
       MySqlConnection conn = new MySqlConnection(connStr);
       bool SQLSuccess = true;
