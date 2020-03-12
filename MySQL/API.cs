@@ -75,26 +75,6 @@ namespace MySQL
       SQLFetch(sql);
 
     }
-
-    public static void SQLFetch(string sql){
-      MySqlConnection connection = null;
-      try {
-        connection = new MySqlConnection(ConnectionString);
-        connection.Open();
-
-        MySqlCommand command = new MySqlCommand(sql, connection);
-        MySqlDataReader reader = command.ExecuteReader();
-
-        while (reader.Read()) {
-          Console.WriteLine(reader.ToString());
-        }
-        reader.Close();
-      } catch (Exception e) {
-        Console.WriteLine(e);
-      } finally {
-        connection?.Close();
-      }
-    }
     
     public static bool CreateNewMovie(string title, int publishingYear, int duration, string description, int directorID, int scriptWriterID) {
       string sql = $"INSERT INTO Film (filmTittel, utgivelesår, lengde, filmbeskrivelse) VALUES ('{title}', {publishingYear}, {duration}, '{description}');";
@@ -156,6 +136,26 @@ namespace MySQL
     public static bool CreateNewSeason(int seriesID, int seasonNumber, string title, string description) {
       string sql = $"INSERT INTO Sesong (SerieID,  Sesongnummer, sesongbeskrivelse, sesongTittel) VALUES ({seriesID}, {seasonNumber}, '{title}', '{description}');";
       return SQLInsert(sql) != -1;
+    }
+
+    public static void SQLFetch(string sql){
+      MySqlConnection connection = null;
+      try {
+        connection = new MySqlConnection(ConnectionString);
+        connection.Open();
+
+        MySqlCommand command = new MySqlCommand(sql, connection);
+        MySqlDataReader reader = command.ExecuteReader();
+
+        while (reader.Read()) {
+          Console.WriteLine(reader.ToString());
+        }
+        reader.Close();
+      } catch (Exception e) {
+        Console.WriteLine(e);
+      } finally {
+        connection?.Close();
+      }
     }
 
     private static long SQLInsert(string sql) {
