@@ -20,7 +20,7 @@ namespace MySQL
       this._commands.Add("create series", this.CreateSeries);
       this._commands.Add("create user", this.CreateUser);
       this._commands.Add("create movie review", this.CreateMovieReview);
-      this._commands.Add("Create episode review", this.CreateEpisodeReview);
+      this._commands.Add("create episode review", this.CreateEpisodeReview);
       //this._commands.Add("create series review", this.CreateSeriesReview);
       this._commands.Add("help", this.Help);
       this._commands.Add("exit", this.Quit);
