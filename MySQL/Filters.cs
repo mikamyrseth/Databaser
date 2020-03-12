@@ -85,7 +85,7 @@ namespace MySQL
 
   }
 
-  public class SeasonIsInSeriesFilter : Filter:<Season>
+  public class SeasonIsInSeriesFilter : Filter<Season>
   {
     private int _seriesID;
 
@@ -93,8 +93,8 @@ namespace MySQL
       this._seriesID = seriesID;
     }
 
-    public override bool Condition(int subject) {
-      Season.SeriesID = _seriesID;
+    public override bool Condition(Season subject) {
+      return subject.SeriesID == this._seriesID;
     }
 
   }
