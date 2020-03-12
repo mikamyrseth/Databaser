@@ -1,18 +1,25 @@
+using System;
+
 namespace MySQL
 {
 
-  public readonly struct Creator : IDatabaseObject
+  public class Creator : DatabaseObject
   {
 
-    public int ID { get; }
-    public int BirthYear { get; }
+    public short BirthYear { get; private set; }
+    public int CountryID { get; private set; }
 
-    public string Name { get; }
+    public override void Initialize(params object[] fields) {
+      if (fields.Length != 4) {
+        throw new FormatException($"{this.GetType().Name} cannot be initialized with {fields.Length} dynamic values!");
+      }
+      base.Initialize(fields[0], fields[2]);
+      this.BirthYear = (short)fields[1];
+      this.CountryID = (int)fields[3];
+    }
 
-    public Creator(int id, int birthYear, string name) {
-      this.ID = id;
-      this.BirthYear = birthYear;
-      this.Name = name;
+    public override string RowForm() {
+      return $"ID: {this.ID}, Birth year: {this.BirthYear}, Name: {this.Name}, Country ID: {this.CountryID}";
     }
 
   }

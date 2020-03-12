@@ -1,15 +1,11 @@
-namespace MySQL
+﻿namespace MySQL
 {
 
-  public readonly struct Country : IDatabaseObject
+  public class Country : DatabaseObject
   {
 
-    public int ID { get; }
-    public string Name { get; }
-
-    public Country(int id, int birthYear, string name) {
-      this.ID = id;
-      this.Name = name;
+    public override string RowForm() {
+      return $"ID: {this.ID}, Name: {this.Name}";
     }
 
   }
