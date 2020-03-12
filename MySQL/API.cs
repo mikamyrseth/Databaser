@@ -131,6 +131,16 @@ namespace MySQL
       return SQLInsert(sql);
     }
 
+    public static bool CreateNewCategory(string name){
+      string sql = $"INSERT INTO  Kategory (kategoriNavn) VALUES ('{name}');";
+      return SQLInsert(sql);
+    }
+
+    public static bool AddCategoryToMovie(int categoryID, int movieID){
+      string sql = $"INSERT INTO FilmIKategori (FilmID, KategoriID) VALUES ({movieID}, {categoryID});";
+      return SQLInsert(sql);
+    }
+
     private static bool SQLInsert(string sql) {
       MySqlConnection conn = new MySqlConnection(ConnectionString);
       bool SQLSuccess = true;

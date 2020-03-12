@@ -21,6 +21,7 @@ namespace MySQL
       this._commands.Add("create user", this.CreateUser);
       this._commands.Add("create movie review", this.CreateMovieReview);
       this._commands.Add("create episode review", this.CreateEpisodeReview);
+      this._commands.Add("create genre", this.CreateCategory);
       //this._commands.Add("create series review", this.CreateSeriesReview);
       this._commands.Add("help", this.Help);
       this._commands.Add("exit", this.Quit);
@@ -28,7 +29,43 @@ namespace MySQL
       this.Start();
     }
 
-    private void CreateEpisodeReview() {
+    private void CreateCategory(){
+      Console.WriteLine("Please enter a name");
+      string name;
+      if(!this.PromptForString(out name, new MaxLengthFilter(40))){
+        return;
+      }
+
+      if (API.CreateNewCategory(name)) {
+        Console.WriteLine("You have added a category 🙌");
+      } else {
+        Console.WriteLine("Oops. Something went hooribly wrong... 😢");
+      } 
+
+    }
+
+    private void AddCategoryToMovie(){
+      Console.WriteLine("Please choose a category");
+      int categoryID;
+      if (!this.PromptForDatabaseObject<Category>("Kategori", out categoryID)){
+        return;
+      }
+
+      Console.WriteLine("Please choose a movie");
+      int movieID;
+      if(!this.PromptForDatabaseObject<Movie>("Film", out movieID)){
+        return;
+      }
+
+      if (API.AddCategoryToMovie(categoryID, movieID)) {
+        Console.WriteLine("You have added this category to movie 🙌");
+      } else {
+        Console.WriteLine("Oops. Something went hooribly wrong... 😢");
+      }
+
+    }
+
+    private void CreateEpisodeReview(){
       Console.WriteLine("Please enter a user");
       if (!this.PromptForDatabaseObject<User>("epost", "Seer", out int userID)) {
         return;
