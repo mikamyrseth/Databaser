@@ -25,11 +25,35 @@ namespace MySQL
       this._commands.Add("create category", this.CreateCategory);
       this._commands.Add("add category to movie", this.AddCategoryToMovie);
       this._commands.Add("create episode", this.CreateEpisode);
+      this._commands.Add("see actor roles", this.SeeActorRoles);
+      this._commands.Add("see company with most movies in category", SeeCompanyWithMostMoviesInCategory);
       //this._commands.Add("create series review", this.CreateSeriesReview);
       this._commands.Add("help", this.Help);
       this._commands.Add("exit", this.Quit);
       this._commands.Add("quit", this.Quit);
       this.Start();
+    }
+
+    private void SeeCompanyWithMostMoviesInCategory(){
+      Console.WriteLine("Please choose a company");
+      if(!this.PromptForDatabaseObject<Company>("selskapsnavn", "Filmselskap", out int companyID)){
+        return;
+      }
+
+      Console.WriteLine("Please choose a cateogry");
+      if(!this.PromptForDatabaseObject<Category>("kategoriNavn", "Kateogry", out int categoryID)){
+        return;
+      }
+
+      API.SeeCompanyWithMostMoviesInCategory(companyID, categoryID);
+      
+    }
+
+    private void SeeActorRoles() {
+      Console.WriteLine("Enter actor");
+      if(!this.PromptForDatabaseObject<Creator>("kreatørNav", "Kreatør", out int actorID))
+      
+      API.SeeActorRoles(actorID);
     }
 
     private void CreateEpisode() {
@@ -53,12 +77,12 @@ namespace MySQL
         return;
       }
 
-      Console.WriteLine("Please enter the director of the movie");
+      Console.WriteLine("Please enter the director of the episode");
       if (!this.PromptForDatabaseObject<Creator>("kreatørNavn", "Kreatør", out int directorID)) {
         return;
       }
 
-      Console.WriteLine("Please enter the script writer of the movie");
+      Console.WriteLine("Please enter the script writer of the episode");
       if (!this.PromptForDatabaseObject<Creator>("kreatørNavn", "Kreatør", out int scriptWriterID)) {
         return;
       }
