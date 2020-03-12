@@ -30,26 +30,22 @@ namespace MySQL
 
     private void CreateEpisodeReview() {
       Console.WriteLine("Please enter a user");
-      int userID;
-      if (!this.PromptForDatabaseObject<User>("Seer", out userID)) {
+      if (!this.PromptForDatabaseObject<User>("epost", "Seer", out int userID)) {
         return;
       }
 
       Console.WriteLine("Please choose an episode");
-      int movieID;
-      if (!this.PromptForDatabaseObject<Movie>("Film", out movieID)) {
+      if (!this.PromptForDatabaseObject<Movie>("filmTittel", "Film", out int movieID)) {
         return;
       }
 
       Console.WriteLine("Please add comment");
-      string comment;
-      if (!this.PromptForString(out comment, new MaxLengthFilter(140))) {
+      if (!this.PromptForString(out string comment, new MaxLengthFilter(140))) {
         return;
       }
 
       Console.WriteLine("Please add a rating between 1 to 10");
-      int rating;
-      if (!this.PromptForInt(out rating, new RangeFilter(1, 10))) {
+      if (!this.PromptForInt(out int rating, new RangeFilter(1, 10))) {
         return;
       }
 
@@ -62,26 +58,22 @@ namespace MySQL
 
     private void CreateMovieReview() {
       Console.WriteLine("Please enter a user");
-      int userID;
-      if (!this.PromptForDatabaseObject<User>("Seer", out userID)) {
+      if (!this.PromptForDatabaseObject<User>("epost", "Seer", out int userID)) {
         return;
       }
 
       Console.WriteLine("Please choose a movie");
-      int movieID;
-      if (!this.PromptForDatabaseObject<Movie>("Film", out movieID)) {
+      if (!this.PromptForDatabaseObject<Movie>("filmTittel", "Film", out int movieID)) {
         return;
       }
 
       Console.WriteLine("Please add comment");
-      string comment;
-      if (!this.PromptForString(out comment, new MaxLengthFilter(140))) {
+      if (!this.PromptForString(out string comment, new MaxLengthFilter(140))) {
         return;
       }
 
       Console.WriteLine("Please add a rating between 1 to 10");
-      int rating;
-      if (!this.PromptForInt(out rating, new RangeFilter(1, 10))) {
+      if (!this.PromptForInt(out int rating, new RangeFilter(1, 10))) {
         return;
       }
 
@@ -94,8 +86,7 @@ namespace MySQL
 
     private void CreateUser() {
       Console.WriteLine("Please enter your email");
-      string email;
-      if (!this.PromptForString(out email, new MaxLengthFilter(40))) {
+      if (!this.PromptForString(out string email, new MaxLengthFilter(40))) {
         return;
       }
 
@@ -108,14 +99,12 @@ namespace MySQL
 
     private void CreateSeries() {
       Console.WriteLine("Enter the title");
-      string title;
-      if (!this.PromptForString(out title, new MaxLengthFilter(40))) {
+      if (!this.PromptForString(out string title, new MaxLengthFilter(40))) {
         return;
       }
 
       Console.WriteLine("Enter a description");
-      string description;
-      if (!this.PromptForString(out description, new MaxLengthFilter(140))) {
+      if (!this.PromptForString(out string description, new MaxLengthFilter(140))) {
         return;
       }
 
@@ -128,14 +117,12 @@ namespace MySQL
 
     private void AddCompanyAsPublisher() {
       Console.WriteLine("Enter a movie");
-      int movieID;
-      if (!this.PromptForDatabaseObject<Country>("landNavn", "Film", out movieID)) {
+      if (!this.PromptForDatabaseObject<Movie>("filmTittel", "Film", out int movieID)) {
         return;
       }
 
       Console.WriteLine("Enter a company");
-      int companyID;
-      if (!this.PromptForDatabaseObject<Company>("selskapsnavn", "Filmselskap", out companyID)) {
+      if (!this.PromptForDatabaseObject<Company>("selskapsnavn", "Filmselskap", out int companyID)) {
         return;
       }
 
@@ -148,14 +135,12 @@ namespace MySQL
 
     private void CreateCompany() {
       Console.WriteLine("Enter a name");
-      string companyName;
-      if (!this.PromptForString(out companyName, new MaxLengthFilter(40))) {
+      if (!this.PromptForString(out string companyName, new MaxLengthFilter(40))) {
         return;
       }
 
       Console.WriteLine("Enter a country");
-      int countryID;
-      if (!this.PromptForDatabaseObject<Country>("landNavn", "Land", out countryID)) {
+      if (!this.PromptForDatabaseObject<Country>("landNavn", "Land", out int countryID)) {
         return;
       }
 
@@ -168,20 +153,17 @@ namespace MySQL
 
     private void AddActorToMovie() {
       Console.WriteLine("Enter a creator");
-      int creatorID;
-      if (!this.PromptForDatabaseObject<Creator>("kreatørNavn", "Kreatør", out creatorID)) {
+      if (!this.PromptForDatabaseObject<Creator>("kreatørNavn", "Kreatør", out int creatorID)) {
         return;
       }
 
       Console.WriteLine("Enter a movie");
-      int movieID;
-      if (!this.PromptForDatabaseObject<Movie>("filmTittel", "Film", out movieID)) {
+      if (!this.PromptForDatabaseObject<Movie>("filmTittel", "Film", out int movieID)) {
         return;
       }
 
       Console.WriteLine("Please enter the role of this actor in this movie.");
-      string role;
-      if (!this.PromptForString(out role, new MaxLengthFilter(40))) {
+      if (!this.PromptForString(out string role, new MaxLengthFilter(40))) {
         return;
       }
 
@@ -232,19 +214,17 @@ namespace MySQL
 
     private void CreateCreator() {
       Console.WriteLine("Please enter a name");
-      string creatorName;
-      if (!this.PromptForString(out creatorName, new MaxLengthFilter(40))) {
+      if (!this.PromptForString(out string creatorName, new MaxLengthFilter(40))) {
         return;
       }
 
-      Console.WriteLine("Please enter the creators birthyear");
-      int birthYear;
-      if (!this.PromptForInt(out birthYear, new ReasonableYearFilter(0))) { }
-    }
+      Console.WriteLine("Please enter the creator's birth year");
+      if (!this.PromptForInt(out int birthYear, new ReasonableYearFilter(0))) {
+        return;
+      }
 
       Console.WriteLine("Please enter the Country of the creator");
-      int countryID;
-      if (!this.PromptForDatabaseObject<Country>("Land", out countryID)) {
+      if (!this.PromptForDatabaseObject<Country>("landNavn", "Land", out int countryID)) {
         return;
       }
 
@@ -378,7 +358,7 @@ namespace MySQL
     private void Quit() {
       this._running = false;
     }
-    
+
     private void Start() {
       while (this._running) {
         Console.Write(">>> ");

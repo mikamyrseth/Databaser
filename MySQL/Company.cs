@@ -9,7 +9,7 @@ namespace MySQL
     public int CountryID { get; private set; }
 
     public override void Initialize(params object[] fields) {
-      if (fields.Length != 2) {
+      if (fields.Length != 3) {
         throw new FormatException($"{this.GetType().Name} cannot be initialized with {fields.Length} dynamic values!");
       }
       base.Initialize(fields[0], fields[1]);
