@@ -24,11 +24,89 @@ namespace MySQL
       this._commands.Add("create movie review", this.CreateMovieReview);
       this._commands.Add("Create episode review", this.CreateEpisodeReview);
       this._commands.Add("create genre", this.CreateCategory);
+      this._commands.Add("create season" this.CreateSeason);
       //this._commands.Add("create series review", this.CreateSeriesReview);
       this._commands.Add("help", this.Help);
       this._commands.Add("exit", this.Quit);
       this._commands.Add("quit", this.Quit);
       this.Start();
+    }
+
+    private void CreateEpisode(){
+      Console.WriteLine("Enter episode title");
+      if (!this.PromptForString(out string title, new MaxLengthFilter(40))) {
+        return;
+      }
+
+      Console.WriteLine("Enter episode publishing year");
+      if (!this.PromptForInt(out int publishingYear, new ReasonableYearFilter(10))) {
+        return;
+      }
+
+      Console.WriteLine("Enter episode length in seconds");
+      if (!this.PromptForInt(out int duration, new PositiveIntFilter(), new MediumIntFilter())) {
+        return;
+      }
+
+      Console.WriteLine("Enter episode description");
+      if (!this.PromptForString(out string description, new MaxLengthFilter(140))) {
+        return;
+      }
+
+      Console.WriteLine("Please enter the director of the episode");
+      if (!this.PromptForCreator(out int directorID)) {
+        return;
+      }
+
+      Console.WriteLine("Please enter the script writer of the movie");
+      if (!this.PromptForCreator(out int scriptWriterID)) {
+        return;
+      }
+
+      Console.WriteLine("Please Enter the series that the episode belowngs to");
+      if(!this.PromptForDatabaseObject<Series>("Serie", out int seriesID)){
+        return;
+      }
+
+      Console.WriteLine("Please enter the season the episode belongs to.");
+      if(!this.PromptForDatabaseObject<Season>("Sesong", out int seasonNumber))
+
+
+      if (
+        API.CreateNewEpisode(title, publishingYear, duration, description, directorID, scriptWriterID, seriesID, seasonNumber)) {
+        Console.WriteLine("You have added a new movie 🙌");
+      } else {
+        Console.WriteLine("Oops. Something went hooribly wrong... 😢");
+      }
+    }
+
+    private void CreateSeason(){
+      Console.WriteLine("Please choose a series");
+      if(!this.PromptForDatabaseObject<Series>("Serie", out int seriesID)){
+        return;
+      }
+
+      Console.WriteLine("Please enter season number");
+      if(!this.PromptForInt(out int seasonNumber, new RangeFilter(1, 100))){
+        return;
+      }
+
+      Console.WriteLine("Please enter a title");
+      if(!this.PromptForString(out string title, new MaxLengthFilter(40))){
+        return;
+      }
+
+      Console.WriteLine("please enter a descirpiton");
+      if(!this.PromptForString(out string description, new MaxLengthFilter(140))){
+        return;
+      }
+
+      if(API.CreateNewSeason(seriesID, seasonNumber, title, description)) {
+        Console.WriteLine("You have added a new season 🙌");
+      } else {
+        Console.WriteLine("Oops. Something went hooribly wrong... 😢");
+      } 
+
     }
 
     private void CreateCategory(){
