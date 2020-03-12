@@ -70,7 +70,7 @@ CREATE TABLE UtøverIStykke (
 
 CREATE TABLE Sesong (
     SerieID INT,
-    Sesongnummer TINYINT,
+    Sesongnummer INT,
     sesongbeskrivelse VARCHAR(140),
     sesongTittel VARCHAR(40),
     PRIMARY KEY (SerieID, Sesongnummer)
@@ -83,7 +83,7 @@ CREATE TABLE Film (
     lengde MEDIUMINT,
     filmbeskrivelse VARCHAR(140),
     SerieID INT,
-    Sesongnummer TINYINT,
+    Sesongnummer INT,
     CONSTRAINT fk_filmISerie
         FOREIGN KEY (SerieID, Sesongnummer)
             REFERENCES Sesong (SerieID, Sesongnummer)
