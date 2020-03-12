@@ -21,9 +21,7 @@ namespace MySQL
       return creators;
     }
 
-    public static List<IDataBaseObject> GetObjectByName<IDataBaseObject>(string userInput, string tableName) {
-      return;
-    }
+    public static List<IDataBaseObject> GetObjectByName<IDataBaseObject>(string userInput, string tableName) { }
 
     public static bool CreateNewMovie(string title, int publishingYear, int duration, string description, int directorID, int scriptWriterID) {
       MySqlConnection conn = new MySqlConnection(connStr);
@@ -52,7 +50,7 @@ namespace MySQL
 
         // string sql3 = $"INSERT INTO ManusforfatterIFilm (FilmID, KreatørID) VALUES ({movieID}, {scriptWriterID});";
         // Console.WriteLine(sql3);
-// 
+        // 
         // cmd = new MySqlCommand(sql3, conn);
         // int rowsAffected3 = cmd.ExecuteNonQuery();
         // if (rowsAffected3 != 1) {
@@ -68,9 +66,9 @@ namespace MySQL
       return SQLSuccess;
     }
 
-    public static bool CreateNewCreator(string Name, int birthYear, int CountryID){
-        string sql = $"INSERT INTO Kreatør (kreatørNavn, fødselsår, landID) VALUES ('{Name}', {birthYear}, {CountryID});";
-        return SQLInsert(sql);
+    public static bool CreateNewCreator(string Name, int birthYear, int CountryID) {
+      string sql = $"INSERT INTO Kreatør (kreatørNavn, fødselsår, landID) VALUES ('{Name}', {birthYear}, {CountryID});";
+      return SQLInsert(sql);
     }
 
     public static bool AddActorToMovie(int creatorID, int movieID, string role) {
@@ -88,17 +86,17 @@ namespace MySQL
       return SQLInsert(sql);
     }
 
-    public static bool CreateNewSeries(string title, string description){
+    public static bool CreateNewSeries(string title, string description) {
       string sql = $"INSERT INTO  Serie (serieTittel, seriebeskrivelse) VALUES ({title}, {description});";
       return SQLInsert(sql);
     }
 
-    public static bool CreateNewUser(string email){
+    public static bool CreateNewUser(string email) {
       string sql = $"INSERT INTO  Seer (epost) VALUES ({email});";
       return SQLInsert(sql);
     }
 
-    private static bool SQLInsert(string sql){
+    private static bool SQLInsert(string sql) {
       MySqlConnection conn = new MySqlConnection(connStr);
       bool SQLSuccess = true;
       try {
@@ -109,7 +107,6 @@ namespace MySQL
         if (rowsAffected != 1) {
           SQLSuccess = false;
         }
-
       } catch (Exception ex) {
         SQLSuccess = false;
         Console.WriteLine(ex.ToString());
