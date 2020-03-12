@@ -62,13 +62,13 @@ namespace MySQL
     private void AddCompanyAsPublisher() {
       Console.WriteLine("Enter a movie");
       int movieID;
-      if (!this.PromptForDatabaseObject<Country>("Film", out movieID)) {
+      if (!this.PromptForDatabaseObject<Country>("landNavn", "Film", out movieID)) {
         return;
       }
 
       Console.WriteLine("Enter a company");
       int companyID;
-      if (!this.PromptForDatabaseObject<Company>("Filmselskap", out companyID)) {
+      if (!this.PromptForDatabaseObject<Company>("selskapsnavn", "Filmselskap", out companyID)) {
         return;
       }
 
@@ -88,7 +88,7 @@ namespace MySQL
 
       Console.WriteLine("Enter a country");
       int countryID;
-      if (!this.PromptForDatabaseObject<Country>("Land", out countryID)) {
+      if (!this.PromptForDatabaseObject<Country>("landNavn", "Land", out countryID)) {
         return;
       }
 
@@ -102,13 +102,13 @@ namespace MySQL
     private void AddActorToMovie() {
       Console.WriteLine("Enter a creator");
       int creatorID;
-      if (!this.PromptForDatabaseObject<Creator>("Kreatør", out creatorID)) {
+      if (!this.PromptForDatabaseObject<Creator>("kreatørNavn", "Kreatør", out creatorID)) {
         return;
       }
 
       Console.WriteLine("Enter a movie");
       int movieID;
-      if (!this.PromptForDatabaseObject<Movie>("Film", out movieID)) {
+      if (!this.PromptForDatabaseObject<Movie>("filmTittel", "Film", out movieID)) {
         return;
       }
 
@@ -174,6 +174,7 @@ namespace MySQL
       int birthYear;
       if (!this.PromptForInt(out birthYear, new ReasonableYearFilter(0))) { }
     }
+
     private bool PromptForDatabaseObject<T>(string columnName, string tableName, out int objectID)
       where T : DatabaseObject, new() {
       while (true) {
@@ -298,6 +299,7 @@ namespace MySQL
     private void Quit() {
       this._running = false;
     }
+    
     private void Start() {
       while (this._running) {
         Console.Write(">>> ");
