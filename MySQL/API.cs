@@ -98,7 +98,7 @@ namespace MySQL
       return SQLInsert(sql);
     }
 
-    public static bool CreateNewReview(int userID, int movieID, string comment, int rating){
+    public static bool CreateNewMovieReview(int userID, int movieID, string comment, int rating){
       string sql = $"INSERT INTO  Filmanmeldelse (SeerID, FilmID, filmKommentar, filmVurdering) VALUES ({userID}, {movieID}, '{comment}', {rating});";
       return SQLInsert(sql);
     }

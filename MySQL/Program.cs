@@ -21,14 +21,50 @@ namespace MySQL
       this._commands.Add("add company as publisher", this.AddCompanyAsPublisher);
       this._commands.Add("create series", this.CreateSeries);
       this._commands.Add("create user", this.CreateUser);
-      this._commands.Add("create review", this.CreateReview);
+      this._commands.Add("create movie review", this.CreateMovieReview);
+      this._commands.Add("Create episode review", this.CreateEpisodeReview);
+      //this._commands.Add("create series review", this.CreateSeriesReview);
       this._commands.Add("help", this.Help);
       this._commands.Add("exit", this.Quit);
       this._commands.Add("quit", this.Quit);
       this.Start();
     }
 
-    private void CreateReview(){
+    private void CreateEpisodeReview(){
+      Console.WriteLine("Please enter a user");
+      int userID;
+      if(!this.PromptForDatabaseObject<User>("Seer", out userID)){
+        return;
+      }
+
+      Console.WriteLine("Please choose an episode");
+      int movieID;
+      if(!this.PromptForDatabaseObject<Movie>("Film", out movieID)){
+        return;
+      }
+
+      Console.WriteLine("Please add comment");
+      string comment;
+      if(!this.PromptForString(out comment, new MaxLengthFilter(140))){
+        return;
+      }
+
+      Console.WriteLine("Please add a rating between 1 to 10");
+      int rating;
+      if(!this.PromptForInt(out rating, new RangeFilter(1, 10))){
+        return;
+      }
+
+      if (API.CreateNewMovieReview(userID, movieID, comment, rating)) {
+        Console.WriteLine("You have added a review 🙌");
+      } else {
+        Console.WriteLine("Oops. Something went hooribly wrong... 😢");
+      } 
+
+
+    }
+
+    private void CreateMovieReview(){
       Console.WriteLine("Please enter a user");
       int userID;
       if(!this.PromptForDatabaseObject<User>("Seer", out userID)){
@@ -43,7 +79,9 @@ namespace MySQL
 
       Console.WriteLine("Please add comment");
       string comment;
-      if(!this.PromptForString(out comment, new MaxLengthFilter(140)))
+      if(!this.PromptForString(out comment, new MaxLengthFilter(140))){
+        return;
+      }
 
       Console.WriteLine("Please add a rating between 1 to 10");
       int rating;
@@ -51,7 +89,7 @@ namespace MySQL
         return;
       }
 
-      if (API.CreateNewReview(userID, movieID, comment, rating)) {
+      if (API.CreateNewMovieReview(userID, movieID, comment, rating)) {
         Console.WriteLine("You have added a review 🙌");
       } else {
         Console.WriteLine("Oops. Something went hooribly wrong... 😢");
