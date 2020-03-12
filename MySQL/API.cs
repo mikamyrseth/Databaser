@@ -68,6 +68,29 @@ namespace MySQL
       return SQLSuccess;
     }
 
+    public static bool CreateNewCreator(string Name, int birthYear, int CountryID){
+      MySqlConnection conn = new MySqlConnection(connStr);
+      bool SQLSuccess = true;
+      try {
+        Console.WriteLine("Connecting to MySQL...");
+        conn.Open();
+        string sql = $"INSERT INTO Kreatør (kreatørNavn, fødselsår, landID) VALUES ('{Name}', {birthYear}, {CountryID});";
+        MySqlCommand cmd = new MySqlCommand(sql, conn);
+        int rowsAffected = cmd.ExecuteNonQuery();
+        if (rowsAffected != 1) {
+          SQLSuccess = false;
+        }
+        
+      } catch (Exception ex) {
+        SQLSuccess = false;
+        Console.WriteLine(ex.ToString());
+      } finally {
+        conn.Close();
+        Console.WriteLine("Done.");
+      }
+      return SQLSuccess;
+    }
+
   }
 
 }

@@ -73,6 +73,18 @@ namespace MySQL
         return;
       }
 
+      Console.WriteLine("Please enter the Country of the creator");
+      int countryID;
+      if(!PromptForDatabaseObject<Country>("Land", out countryID)){
+        return;
+      }
+
+      if (API.CreateNewCreator(creatorName, birthYear, countryID)) {
+        Console.WriteLine("You have added a new creator 🙌");
+      } else {
+        Console.WriteLine("Oops. Something went hooribly wrong... 😢");
+      }
+
     }
     private bool PromptForDatabaseObject<IDataBaseObject>(string tableName, out int objectID) {
       while(true) {
