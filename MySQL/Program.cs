@@ -1,6 +1,4 @@
 ﻿using System;
-using MySql.Data;
-using MySql.Data.MySqlClient;
 using System.Collections.Generic;
 
 namespace MySQL
@@ -44,38 +42,36 @@ namespace MySQL
       }
 
       Console.WriteLine("Please enter the director of the movie");
-      if (!this.PromptForCreator(out int directorID)) {
+      if (!this.PromptForDatabaseObject<Creator>("kreatørNavn", "Kreatør", out int directorID)) {
         return;
       }
 
       Console.WriteLine("Please enter the script writer of the movie");
-      if (!this.PromptForCreator(out int scriptWriterID)) {
+      if (!this.PromptForDatabaseObject<Creator>("kreatørNavn", "Kreatør", out int scriptWriterID)) {
         return;
       }
 
       if (API.CreateNewMovie(title, publishingYear, duration, description, directorID, scriptWriterID)) {
         Console.WriteLine("You have added a new movie 🙌");
       } else {
-        Console.WriteLine("Oops. Something went hooribly wrong... 😢");
+        Console.WriteLine("Oops. Something went horribly wrong... 😢");
       }
     }
 
-    private void CreateCreator(){
+    private void CreateCreator() {
       Console.WriteLine("Please enter a name");
       string creatorName;
-      if(!PromptForString(out creatorName, new MaxLengthFilter(40))){
+      if (!this.PromptForString(out creatorName, new MaxLengthFilter(40))) {
         return;
       }
 
       Console.WriteLine("Please enter the creators birthyear");
       int birthYear;
-      if(!PromptForInt(out birthYear, new ReasonableYearFilter(0))){
-        return;
-      }
-
+      if (!this.PromptForInt(out birthYear, new ReasonableYearFilter(0))) { }
     }
-    private bool PromptForDatabaseObject<IDataBaseObject>(string tableName, out int objectID) {
-      while(true) {
+    private bool PromptForDatabaseObject<T>(string columnName, string tableName, out int objectID)
+      where T : DatabaseObject, new() {
+      while (true) {
         Console.WriteLine("Enter name");
         string userInput = Console.ReadLine();
         if (userInput == "cancel") {
@@ -83,25 +79,27 @@ namespace MySQL
           objectID = -1;
           return false;
         }
-        List<IDatabaseObject> objectList = API.GetObjectByName<IDataBaseObject>(userInput, tableName);
+        List<T> objectList = new List<T>(API.GetObjectsByName<T>(userInput, columnName, tableName));
         if (objectList.Count > 1) {
           Console.WriteLine("Please choose one of the following:");
           List<int> IDs = new List<int>();
-          foreach (Creator creator in objectList) {
-            Console.WriteLine($"\tID: {creator.ID}, Name: {creator.Name}, Birth year: {creator.BirthYear}");
-            IDs.Add(creator.ID);
+          foreach (T @object in objectList) {
+            Console.WriteLine(@object.RowForm());
+            IDs.Add(@object.ID);
           }
           Console.WriteLine("Enter the ID");
-          if (!this.PromptForInt(out objectID, new InIntCollectionFilter(IDs))) { }
-        } else if (objectList.Count == 0) {
+          if (!this.PromptForInt(out objectID, new InIntCollectionFilter(IDs))) {
+            continue;
+          }
+          return true;
+        }
+        if (objectList.Count == 0) {
           Console.WriteLine("No results with that name");
         } else {
           objectID = objectList[0].ID;
           return true;
         }
-
       }
-
     }
 
     private bool PromptForCreator(out int creatorID) {
@@ -122,13 +120,44 @@ namespace MySQL
             IDs.Add(creator.ID);
           }
           Console.WriteLine("Enter the creatorID");
-          if (!this.PromptForInt(out creatorID, new InIntCollectionFilter(IDs))) { }
-        } else if (creatorsList.Count == 0) {
+          if (!this.PromptForInt(out creatorID, new InIntCollectionFilter(IDs))) {
+            continue;
+          }
+          return true;
+        }
+        if (creatorsList.Count == 0) {
           Console.WriteLine("No creators with that name");
         } else {
           creatorID = creatorsList[0].ID;
           return true;
         }
+      }
+    }
+
+    private bool PromptForInt(out int inputInt, params Filter<int>[] filters) {
+      while (true) {
+        string userInput = Console.ReadLine();
+        if (userInput == "cancel") {
+          Console.WriteLine("Command cancelled");
+          inputInt = 0;
+          return false;
+        }
+        if (int.TryParse(userInput, out inputInt)) {
+          bool filtersPassed = true;
+          foreach (Filter<int> filter in filters) {
+            if (filter.Condition(inputInt)) {
+              continue;
+            }
+            Console.WriteLine(filter.ErrorMessage);
+            filtersPassed = false;
+          }
+          if (filtersPassed) {
+            return true;
+          }
+        } else {
+          Console.WriteLine("Value must be an integer!");
+        }
+        Console.WriteLine("Type \"cancel\" to cancel");
       }
     }
 
@@ -148,32 +177,6 @@ namespace MySQL
         }
         if (filtersPassed) {
           return true;
-        }
-        Console.WriteLine("Type \"cancel\" to cancel");
-      }
-    }
-
-    private bool PromptForInt(out int inputInt, params Filter<int>[] filters) {
-      while (true) {
-        string userInput = Console.ReadLine();
-        if (userInput == "cancel") {
-          Console.WriteLine("Command cancelled");
-          inputInt = 0;
-          return false;
-        }
-        if (int.TryParse(userInput, out inputInt)) {
-          bool filtersPassed = true;
-          foreach (Filter<int> filter in filters) {
-            if (!filter.Condition(inputInt)) {
-              Console.WriteLine(filter.ErrorMessage);
-              filtersPassed = false;
-            }
-          }
-          if (filtersPassed) {
-            return true;
-          }
-        } else {
-          Console.WriteLine("Value must be an integer!");
         }
         Console.WriteLine("Type \"cancel\" to cancel");
       }
