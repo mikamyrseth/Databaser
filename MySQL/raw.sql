@@ -30,3 +30,10 @@ SELECT rolle FROM
     SkuespillerIFilm
     ON riktigkreatør.KreatørID = SkuespillerIFilm.KreatørID
 ;
+
+SELECT filmTittel FROM
+    (
+        SELECT FilmID FROM SkuespillerIFilm WHERE KreatørID = 2
+    ) as riktigkreatør
+    JOIN Film ON Film.FilmID = riktigkreatør.FilmID
+;

@@ -27,8 +27,12 @@ namespace MySQL
       this._commands.Add("add category to movie", this.AddCategoryToMovie);
       this._commands.Add("create episode", this.CreateEpisode);
       this._commands.Add("see actor roles", this.SeeActorRoles);
-      this._commands.Add("see movies that actor is in", this.SeeMoviesThatActorIsIn);
+<<<<<<< HEAD
       this._commands.Add("see company with most movies in category", this.SeeCompanyWithMostMoviesInCategory);
+=======
+      this._commands.Add("see movies that actor is in", this.SeeMoviesThatActorIsIn);
+      this._commands.Add("see company with most movies in category", SeeCompanyWithMostMoviesInCategory);
+>>>>>>> b49f675d1bde6ddfbbf2827d06fe206966f78854
       //this._commands.Add("create series review", this.CreateSeriesReview);
       this._commands.Add("help", this.Help);
       this._commands.Add("exit", this.Quit);
@@ -42,11 +46,23 @@ namespace MySQL
         return;
       }
 
+<<<<<<< HEAD
+    private void SeeCompanyWithMostMoviesInCategory() {
+      
+      Console.WriteLine("Please choose a category");
+      if(!this.PromptForDatabaseObject<Category>("kategoriNavn", "Kategori", out int categoryID)) {
+=======
       API.SeeMoviesThatActorIsIn(creatorID);
     }
-    private void SeeCompanyWithMostMoviesInCategory() {
-      Console.WriteLine("Please choose a category");
-      if(!this.PromptForDatabaseObject<Category>("kategoriNavn", "Kategori", out int categoryID)){
+    private void SeeCompanyWithMostMoviesInCategory(){
+      Console.WriteLine("Please choose a company");
+      if(!this.PromptForDatabaseObject<Company>("selskapsnavn", "Filmselskap", out int companyID)){
+        return;
+      }
+
+      Console.WriteLine("Please choose a cateogry");
+      if(!this.PromptForDatabaseObject<Category>("kategoriNavn", "Kateogry", out int categoryID)){
+>>>>>>> b49f675d1bde6ddfbbf2827d06fe206966f78854
         return;
       }
 
@@ -56,7 +72,11 @@ namespace MySQL
 
     private void SeeActorRoles() {
       Console.WriteLine("Enter actor");
-      if(!this.PromptForDatabaseObject<Creator>("kreatørNavn", "Kreatør", out int actorID)){
+<<<<<<< HEAD
+      if (!this.PromptForDatabaseObject<Creator>("kreatørNav", "Kreatør", out int actorID)) {
+=======
+      if(!this.PromptForDatabaseObject<Creator>("kreatørNav", "Kreatør", out int actorID)){
+>>>>>>> b49f675d1bde6ddfbbf2827d06fe206966f78854
         return;
       }
       

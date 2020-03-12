@@ -63,20 +63,14 @@ namespace MySQL
 
     public static void SeeCompanyWithMostMoviesInCategory(int categoryID){
       Console.WriteLine("The company with the most movies in the category is:");
+      Console.WriteLine("Company ID | Company Name | Number of movies");
       string sql = $"SELECT RelevantCompanies.FilmselskapID, RelevantCompanies.selskapsnavn, MAX(RelevantCompanies.Count) FROM (SELECT RelevantUtgivelse.FilmselskapID, RelevantUtgivelse.selskapsnavn, COUNT(FilmID) as Count  FROM (SELECT filmselskap.FilmselskapID, filmselskap.selskapsnavn, Relevant.FilmID FROM filmselskap JOIN utgivelser ON filmselskap.FilmselskapID = utgivelser.FilmSelskapID JOIN (SELECT FilmID FROM Film WHERE Film.SerieID IS NULL ) AS Movies  ON utgivelser.FilmID = Movies.FilmID JOIN (SELECT * FROM filmikategori  WHERE filmikategori.KategoriID = {categoryID} ) AS Relevant ON Movies.FilmID = Relevant.FilmID ) AS RelevantUtgivelse GROUP BY RelevantUtgivelse.FilmselskapID, RelevantUtgivelse.selskapsnavn ) AS RelevantCompanies GROUP BY RelevantCompanies.FilmselskapID, RelevantCompanies.selskapsnavn;";
       SQLFetch(sql);
     }
 
     public static void SeeMoviesThatActorIsIn(int creatorID){
       Console.WriteLine("The actors played in the movie is");
-      string sql = ""+
-      "SELECT filmTittel FROM (" +
-      "("+
-      $" SELECT FilmID FROM SkuespillerIFilm WHERE KreatørID = {creatorID}"+
-      ") as riktigkreatør JOIN" +
-      " Film"+
-      "ON Film.FilmID = riktigkreatør.FilmID"+
-      ");";
+      string sql = $"SELECT filmTittel FROM (SELECT FilmID FROM SkuespillerIFilm WHERE KreatørID = {creatorID}) as riktigkreatør JOIN Film ON Film.FilmID = riktigkreatør.FilmID;";
       SQLFetch(sql);
     }
     
