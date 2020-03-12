@@ -85,4 +85,18 @@ namespace MySQL
 
   }
 
+  public class SeasonIsInSeriesFilter : Filter:<Season>
+  {
+    private int _seriesID;
+
+    public SeasonIsInSeriesFilter(int seriesID) : base("Season must be in the series you supplied") {
+      this._seriesID = seriesID;
+    }
+
+    public override bool Condition(int subject) {
+      Season.seriesID = _seriesID;
+    }
+
+  }
+
 }
