@@ -24,7 +24,7 @@ namespace MySQL
       this._commands.Add("create episode review", this.CreateEpisodeReview);
       this._commands.Add("create category", this.CreateCategory);
       this._commands.Add("add category to movie", this.AddCategoryToMovie);
-      // There was an empty row here.
+      this._commands.Add("create episode", this.CreateEpisode);
       //this._commands.Add("create series review", this.CreateSeriesReview);
       this._commands.Add("help", this.Help);
       this._commands.Add("exit", this.Quit);
@@ -53,13 +53,13 @@ namespace MySQL
         return;
       }
 
-      Console.WriteLine("Please enter the director of the episode");
-      if (!this.PromptForCreator(out int directorID)) {
+      Console.WriteLine("Please enter the director of the movie");
+      if (!this.PromptForDatabaseObject<Creator>("kreatørNavn", "Kreatør", out int directorID)) {
         return;
       }
 
       Console.WriteLine("Please enter the script writer of the movie");
-      if (!this.PromptForCreator(out int scriptWriterID)) {
+      if (!this.PromptForDatabaseObject<Creator>("kreatørNavn", "Kreatør", out int scriptWriterID)) {
         return;
       }
 
@@ -96,7 +96,7 @@ namespace MySQL
         return;
       }
 
-      Console.WriteLine("please enter a descirpiton");
+      Console.WriteLine("please enter a description");
       if (!this.PromptForString(out string description, new MaxLengthFilter(140))) {
         return;
       }
@@ -346,6 +346,7 @@ namespace MySQL
         Console.WriteLine("Oops. Something went hooribly wrong... 😢");
       }
     }
+    
     private bool PromptForDatabaseObject<T>(string columnName, string tableName, out int objectID)
       where T : DatabaseObject, new() {
       while (true) {
@@ -374,38 +375,6 @@ namespace MySQL
           Console.WriteLine("No results with that name");
         } else {
           objectID = objectList[0].ID;
-          return true;
-        }
-      }
-    }
-
-    private bool PromptForCreator(out int creatorID) {
-      while (true) {
-        Console.WriteLine("Enter name");
-        string userInput = Console.ReadLine();
-        if (userInput == "cancel") {
-          Console.WriteLine("Command cancelled");
-          creatorID = -1;
-          return false;
-        }
-        List<Creator> creatorsList = API.GetCreatorsByName(userInput);
-        if (creatorsList.Count > 1) {
-          Console.WriteLine("Please choose one of the following creators:");
-          List<int> IDs = new List<int>();
-          foreach (Creator creator in creatorsList) {
-            Console.WriteLine($"\tID: {creator.ID}, Name: {creator.Name}, Birth year: {creator.BirthYear}");
-            IDs.Add(creator.ID);
-          }
-          Console.WriteLine("Enter the creatorID");
-          if (!this.PromptForInt(out creatorID, new InIntCollectionFilter(IDs))) {
-            continue;
-          }
-          return true;
-        }
-        if (creatorsList.Count == 0) {
-          Console.WriteLine("No creators with that name");
-        } else {
-          creatorID = creatorsList[0].ID;
           return true;
         }
       }
