@@ -21,10 +21,42 @@ namespace MySQL
       this._commands.Add("add company as publisher", this.AddCompanyAsPublisher);
       this._commands.Add("create series", this.CreateSeries);
       this._commands.Add("create user", this.CreateUser);
+      this._commands.Add("create review", this.CreateReview);
       this._commands.Add("help", this.Help);
       this._commands.Add("exit", this.Quit);
       this._commands.Add("quit", this.Quit);
       this.Start();
+    }
+
+    private void CreateReview(){
+      Console.WriteLine("Please enter a user");
+      int userID;
+      if(!this.PromptForDatabaseObject<User>("Seer", out userID)){
+        return;
+      }
+
+      Console.WriteLine("Please choose a movie");
+      int movieID;
+      if(!this.PromptForDatabaseObject<Movie>("Film", out movieID)){
+        return;
+      }
+
+      Console.WriteLine("Please add comment");
+      string comment;
+      if(!this.PromptForString(out comment, new MaxLengthFilter(140)))
+
+      Console.WriteLine("Please add a rating between 1 to 10");
+      int rating;
+      if(!this.PromptForInt(out rating, new RangeFilter(1, 10))){
+        return;
+      }
+
+      if (API.CreateNewReview(userID, movieID, comment, rating)) {
+        Console.WriteLine("You have added a review 🙌");
+      } else {
+        Console.WriteLine("Oops. Something went hooribly wrong... 😢");
+      } 
+
     }
 
     private void CreateUser(){
