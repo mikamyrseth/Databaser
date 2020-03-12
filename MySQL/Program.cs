@@ -423,6 +423,7 @@ namespace MySQL
           objectID = objectList[0].ID;
           return true;
         }
+        Console.WriteLine("Type \"cancel\" to cancel");
       }
     }
 

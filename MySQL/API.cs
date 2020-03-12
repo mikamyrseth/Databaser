@@ -77,8 +77,15 @@ namespace MySQL
     }
 
     public static void SeeMoviesThatActorIsIn(int creatorID){
-      Console.WriteLine("The actors played in the following category");
-      string sql = "";
+      Console.WriteLine("The actors played in the movie is");
+      string sql = ""+
+      "SELECT filmTittel FROM ("+
+      "("+
+      $" SELECT FilmID FROM SkuespillerIFilm WHERE KreatørID = {creatorID}"+
+      ") as riktigkreatør JOIN" +
+      " Film"+
+      "ON Film.FilmID = riktigkreatør.FilmID"+
+      ");";
       SQLFetch(sql);
     }
     
