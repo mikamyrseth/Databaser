@@ -69,11 +69,10 @@ namespace MySQL
 
     }
 
-    public static void SeeCompanyWithMostMoviesInCategory(int companyID, int categoryID){
+    public static void SeeCompanyWithMostMoviesInCategory(int categoryID){
       Console.WriteLine("The company with the most movies in the category is:");
-      string sql = "";
+      string sql = $"SELECT RelevantCompanies.FilmselskapID, RelevantCompanies.selskapsnavn, MAX(RelevantCompanies.Count) FROM (SELECT RelevantUtgivelse.FilmselskapID, RelevantUtgivelse.selskapsnavn, COUNT(FilmID) as Count  FROM (SELECT filmselskap.FilmselskapID, filmselskap.selskapsnavn, Relevant.FilmID FROM filmselskap JOIN utgivelser ON filmselskap.FilmselskapID = utgivelser.FilmSelskapID JOIN (SELECT FilmID FROM Film WHERE Film.SerieID IS NULL ) AS Movies  ON utgivelser.FilmID = Movies.FilmID JOIN (SELECT * FROM filmikategori  WHERE filmikategori.KategoriID = {categoryID} ) AS Relevant ON Movies.FilmID = Relevant.FilmID ) AS RelevantUtgivelse GROUP BY RelevantUtgivelse.FilmselskapID, RelevantUtgivelse.selskapsnavn ) AS RelevantCompanies GROUP BY RelevantCompanies.FilmselskapID, RelevantCompanies.selskapsnavn;";
       SQLFetch(sql);
-
     }
     
     public static bool CreateNewMovie(string title, int publishingYear, int duration, string description, int directorID, int scriptWriterID) {
@@ -148,7 +147,11 @@ namespace MySQL
         MySqlDataReader reader = command.ExecuteReader();
 
         while (reader.Read()) {
-          Console.WriteLine(reader.ToString());
+          for (int i = 0,
+                   max = reader.FieldCount; i < max; i++) {
+            Console.Write(reader[i] + "  ");
+          }
+          Console.WriteLine();
         }
         reader.Close();
       } catch (Exception e) {
