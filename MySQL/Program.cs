@@ -16,10 +16,38 @@ namespace MySQL
     private Program() {
       this._commands.Add("create movie", this.CreateMovie);
       this._commands.Add("create creator", this.CreateCreator);
+      this._commands.Add("add actor to movie", this.AddActorToMovie);
       this._commands.Add("help", this.Help);
       this._commands.Add("exit", this.Quit);
       this._commands.Add("quit", this.Quit);
       this.Start();
+    }
+
+    private void AddActorToMovie(){
+      Console.WriteLine("Enter a creator");
+      int creatorID;
+      if(!this.PromptForDatabaseObject<Creator>("Kreatør", out creatorID)){
+        return;
+      }
+
+      Console.WriteLine("Enter a movie");
+      int movieID;
+      if(!this.PromptForDatabaseObject<Movie>("Film", out movieID)){
+        return;
+      }
+
+      Console.WriteLine("Please enter the role of this actor in this movie.");
+      string role;
+      if(!this.PromptForString(out role, new MaxLengthFilter(40))){
+        return;
+      }
+
+      if (API.AddActorToMovie(creatorID, movieID, role)) {
+        Console.WriteLine("You have added a new movie 🙌");
+      } else {
+        Console.WriteLine("Oops. Something went hooribly wrong... 😢");
+      }      
+
     }
 
     private void CreateMovie() {
