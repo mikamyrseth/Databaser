@@ -25,6 +25,7 @@ namespace MySQL
       this._commands.Add("create category", this.CreateCategory);
       this._commands.Add("add category to movie", this.AddCategoryToMovie);
       this._commands.Add("see actor roles", this.SeeActorRoles);
+      // There was an empty row here.
       //this._commands.Add("create series review", this.CreateSeriesReview);
       this._commands.Add("help", this.Help);
       this._commands.Add("exit", this.Quit);
@@ -89,7 +90,7 @@ namespace MySQL
 
     private void CreateSeason() {
       Console.WriteLine("Please choose a series");
-      if (!this.PromptForDatabaseObject<Series>("Serie", out int seriesID)) {
+      if (!this.PromptForDatabaseObject<Series>("serieTittel", "Serie", out int seriesID)) {
         return;
       }
 
