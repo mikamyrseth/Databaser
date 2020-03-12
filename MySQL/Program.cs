@@ -493,7 +493,7 @@ namespace MySQL
         try {
           this._commands[command]();
         } catch {
-          Console.WriteLine("Command not found");
+          Console.WriteLine("Command not found try 'help'");
         }
       }
     }

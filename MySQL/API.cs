@@ -9,7 +9,7 @@ namespace MySQL
   public static class API
   {
 
-    private const string ConnectionString = "server=localhost;user=root;database=MySQL;port=3306;password=root;";
+    private const string ConnectionString = "server=localhost;user=root;database=superduperdatabase;port=3306;password=root;";
 
     public static Creator GetCreatorByID(int id) {
       Creator creator = new Creator();
