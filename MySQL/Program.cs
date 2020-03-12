@@ -24,6 +24,7 @@ namespace MySQL
       this._commands.Add("create episode review", this.CreateEpisodeReview);
       this._commands.Add("create category", this.CreateCategory);
       this._commands.Add("add category to movie", this.AddCategoryToMovie);
+      this._commands.Add("")
       //this._commands.Add("create series review", this.CreateSeriesReview);
       this._commands.Add("help", this.Help);
       this._commands.Add("exit", this.Quit);

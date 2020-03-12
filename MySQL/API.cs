@@ -62,7 +62,7 @@ namespace MySQL
       return movieID != -1;
     }
 
-    public static bool CreateNewEpisode(string title, int publishingYear, int duration, string description, int directorID, int scriptWriterID int seriesID, int seasonNumber){
+    public static bool CreateNewEpisode(string title, int publishingYear, int duration, string description, int directorID, int scriptWriterID, int seriesID, int seasonNumber){
       string sql = $"INSERT INTO Film (filmTittel, utgivelesår, lengde, filmbeskrivelse, serieID, Sesongnummer) VALUES ('{title}', {publishingYear}, {duration}, '{description}', {seriesID}, {seasonNumber});";
       return SQLInsert(sql) != -1;
     }

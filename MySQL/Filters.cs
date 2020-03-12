@@ -94,7 +94,7 @@ namespace MySQL
     }
 
     public override bool Condition(int subject) {
-      Season.seriesID = _seriesID;
+      Season.SeriesID = _seriesID;
     }
 
   }
