@@ -107,7 +107,7 @@ namespace MySQL
     }
 
     public static bool CreateNewCreator(string Name, int birthYear, int CountryID) {
-      string sql = $"INSERT INTO Kreatør (kreatørNavn, fødselsår, landID) VALUES ('{Name}', {birthYear}, {CountryID});";
+      string sql = $"INSERT INTO Kreatør (kreatørNavn, fødeslsår, landID) VALUES ('{Name}', {birthYear}, {CountryID});";
       return SQLInsert(sql) != -1;
     }
 

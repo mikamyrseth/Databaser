@@ -418,7 +418,7 @@ namespace MySQL
           return true;
         }
         if (objectList.Count == 0) {
-          Console.WriteLine("No results with that name");
+          Console.WriteLine("No results with that name. Try again (or try creating one)");
         } else {
           objectID = objectList[0].ID;
           return true;
