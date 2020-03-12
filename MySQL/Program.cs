@@ -21,7 +21,7 @@ namespace MySQL
       this._commands.Add("create user", this.CreateUser);
       this._commands.Add("create movie review", this.CreateMovieReview);
       this._commands.Add("create episode review", this.CreateEpisodeReview);
-      this._commands.Add("create genre", this.CreateCategory);
+      this._commands.Add("create category", this.CreateCategory);
       //this._commands.Add("create series review", this.CreateSeriesReview);
       this._commands.Add("help", this.Help);
       this._commands.Add("exit", this.Quit);
@@ -46,14 +46,12 @@ namespace MySQL
 
     private void AddCategoryToMovie(){
       Console.WriteLine("Please choose a category");
-      int categoryID;
-      if (!this.PromptForDatabaseObject<Category>("Kategori", out categoryID)){
+      if (!this.PromptForDatabaseObject<Category>("kategoriNavn", "Kategori", out int categoryID)){
         return;
       }
 
       Console.WriteLine("Please choose a movie");
-      int movieID;
-      if(!this.PromptForDatabaseObject<Movie>("Film", out movieID)){
+      if(!this.PromptForDatabaseObject<Movie>("filmTittel", "Film", out int movieID)){
         return;
       }
 

@@ -132,7 +132,7 @@ namespace MySQL
     }
 
     public static bool CreateNewCategory(string name){
-      string sql = $"INSERT INTO  Kategory (kategoriNavn) VALUES ('{name}');";
+      string sql = $"INSERT INTO  Kategori (kategoriNavn) VALUES ('{name}');";
       return SQLInsert(sql);
     }
 
