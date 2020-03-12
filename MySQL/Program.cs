@@ -1,6 +1,4 @@
 ﻿using System;
-using MySql.Data;
-using MySql.Data.MySqlClient;
 using System.Collections.Generic;
 
 namespace MySQL
@@ -30,28 +28,28 @@ namespace MySQL
       this.Start();
     }
 
-    private void CreateEpisodeReview(){
+    private void CreateEpisodeReview() {
       Console.WriteLine("Please enter a user");
       int userID;
-      if(!this.PromptForDatabaseObject<User>("Seer", out userID)){
+      if (!this.PromptForDatabaseObject<User>("Seer", out userID)) {
         return;
       }
 
       Console.WriteLine("Please choose an episode");
       int movieID;
-      if(!this.PromptForDatabaseObject<Movie>("Film", out movieID)){
+      if (!this.PromptForDatabaseObject<Movie>("Film", out movieID)) {
         return;
       }
 
       Console.WriteLine("Please add comment");
       string comment;
-      if(!this.PromptForString(out comment, new MaxLengthFilter(140))){
+      if (!this.PromptForString(out comment, new MaxLengthFilter(140))) {
         return;
       }
 
       Console.WriteLine("Please add a rating between 1 to 10");
       int rating;
-      if(!this.PromptForInt(out rating, new RangeFilter(1, 10))){
+      if (!this.PromptForInt(out rating, new RangeFilter(1, 10))) {
         return;
       }
 
@@ -59,33 +57,31 @@ namespace MySQL
         Console.WriteLine("You have added a review 🙌");
       } else {
         Console.WriteLine("Oops. Something went hooribly wrong... 😢");
-      } 
-
-
+      }
     }
 
-    private void CreateMovieReview(){
+    private void CreateMovieReview() {
       Console.WriteLine("Please enter a user");
       int userID;
-      if(!this.PromptForDatabaseObject<User>("Seer", out userID)){
+      if (!this.PromptForDatabaseObject<User>("Seer", out userID)) {
         return;
       }
 
       Console.WriteLine("Please choose a movie");
       int movieID;
-      if(!this.PromptForDatabaseObject<Movie>("Film", out movieID)){
+      if (!this.PromptForDatabaseObject<Movie>("Film", out movieID)) {
         return;
       }
 
       Console.WriteLine("Please add comment");
       string comment;
-      if(!this.PromptForString(out comment, new MaxLengthFilter(140))){
+      if (!this.PromptForString(out comment, new MaxLengthFilter(140))) {
         return;
       }
 
       Console.WriteLine("Please add a rating between 1 to 10");
       int rating;
-      if(!this.PromptForInt(out rating, new RangeFilter(1, 10))){
+      if (!this.PromptForInt(out rating, new RangeFilter(1, 10))) {
         return;
       }
 
@@ -93,14 +89,13 @@ namespace MySQL
         Console.WriteLine("You have added a review 🙌");
       } else {
         Console.WriteLine("Oops. Something went hooribly wrong... 😢");
-      } 
-
+      }
     }
 
-    private void CreateUser(){
+    private void CreateUser() {
       Console.WriteLine("Please enter your email");
       string email;
-      if (!this.PromptForString(out email, new MaxLengthFilter(40))){
+      if (!this.PromptForString(out email, new MaxLengthFilter(40))) {
         return;
       }
 
@@ -108,20 +103,19 @@ namespace MySQL
         Console.WriteLine("You have added a new user 🙌");
       } else {
         Console.WriteLine("Oops. Something went hooribly wrong... 😢");
-      } 
-
+      }
     }
 
-    private void CreateSeries(){
+    private void CreateSeries() {
       Console.WriteLine("Enter the title");
       string title;
-      if (!this.PromptForString(out title, new MaxLengthFilter(40))){
+      if (!this.PromptForString(out title, new MaxLengthFilter(40))) {
         return;
       }
 
-      Console .WriteLine("Enter a description");
+      Console.WriteLine("Enter a description");
       string description;
-      if (!this.PromptForString(out description, new MaxLengthFilter(140))){
+      if (!this.PromptForString(out description, new MaxLengthFilter(140))) {
         return;
       }
 
@@ -129,20 +123,19 @@ namespace MySQL
         Console.WriteLine("You have added a new series 🙌");
       } else {
         Console.WriteLine("Oops. Something went hooribly wrong... 😢");
-      }  
-
+      }
     }
 
-    private void AddCompanyAsPublisher(){
+    private void AddCompanyAsPublisher() {
       Console.WriteLine("Enter a movie");
       int movieID;
-      if(!this.PromptForDatabaseObject<Country>("Film", out movieID)){
+      if (!this.PromptForDatabaseObject<Country>("Film", out movieID)) {
         return;
       }
 
       Console.WriteLine("Enter a company");
       int companyID;
-      if(!this.PromptForDatabaseObject<Company>("Filmselskap", out companyID)){
+      if (!this.PromptForDatabaseObject<Company>("Filmselskap", out companyID)) {
         return;
       }
 
@@ -150,20 +143,19 @@ namespace MySQL
         Console.WriteLine("You have added a published to the movie 🙌");
       } else {
         Console.WriteLine("Oops. Something went hooribly wrong... 😢");
-      }  
-
+      }
     }
 
-    private void CreateCompany(){
+    private void CreateCompany() {
       Console.WriteLine("Enter a name");
       string companyName;
-      if(!this.PromptForString(out companyName, new MaxLengthFilter(40))){
+      if (!this.PromptForString(out companyName, new MaxLengthFilter(40))) {
         return;
       }
-      
+
       Console.WriteLine("Enter a country");
       int countryID;
-      if(!this.PromptForDatabaseObject<Country>("Land", out countryID)){
+      if (!this.PromptForDatabaseObject<Country>("Land", out countryID)) {
         return;
       }
 
@@ -171,26 +163,25 @@ namespace MySQL
         Console.WriteLine("You have added a new Company 🙌");
       } else {
         Console.WriteLine("Oops. Something went hooribly wrong... 😢");
-      }  
-
+      }
     }
 
-    private void AddActorToMovie(){
+    private void AddActorToMovie() {
       Console.WriteLine("Enter a creator");
       int creatorID;
-      if(!this.PromptForDatabaseObject<Creator>("Kreatør", out creatorID)){
+      if (!this.PromptForDatabaseObject<Creator>("Kreatør", out creatorID)) {
         return;
       }
 
       Console.WriteLine("Enter a movie");
       int movieID;
-      if(!this.PromptForDatabaseObject<Movie>("Film", out movieID)){
+      if (!this.PromptForDatabaseObject<Movie>("Film", out movieID)) {
         return;
       }
 
       Console.WriteLine("Please enter the role of this actor in this movie.");
       string role;
-      if(!this.PromptForString(out role, new MaxLengthFilter(40))){
+      if (!this.PromptForString(out role, new MaxLengthFilter(40))) {
         return;
       }
 
@@ -198,8 +189,7 @@ namespace MySQL
         Console.WriteLine("You have added actor to movie 🙌");
       } else {
         Console.WriteLine("Oops. Something went hooribly wrong... 😢");
-      }      
-
+      }
     }
 
     private void CreateMovie() {
@@ -240,22 +230,22 @@ namespace MySQL
       }
     }
 
-    private void CreateCreator(){
+    private void CreateCreator() {
       Console.WriteLine("Please enter a name");
       string creatorName;
-      if(!PromptForString(out creatorName, new MaxLengthFilter(40))){
+      if (!this.PromptForString(out creatorName, new MaxLengthFilter(40))) {
         return;
       }
 
       Console.WriteLine("Please enter the creators birthyear");
       int birthYear;
-      if(!PromptForInt(out birthYear, new ReasonableYearFilter(0))){
+      if (!this.PromptForInt(out birthYear, new ReasonableYearFilter(0))) {
         return;
       }
 
       Console.WriteLine("Please enter the Country of the creator");
       int countryID;
-      if(!PromptForDatabaseObject<Country>("Land", out countryID)){
+      if (!this.PromptForDatabaseObject<Country>("Land", out countryID)) {
         return;
       }
 
@@ -264,10 +254,9 @@ namespace MySQL
       } else {
         Console.WriteLine("Oops. Something went hooribly wrong... 😢");
       }
-
     }
     private bool PromptForDatabaseObject<IDataBaseObject>(string tableName, out int objectID) {
-      while(true) {
+      while (true) {
         Console.WriteLine("Enter name");
         string userInput = Console.ReadLine();
         if (userInput == "cancel") {
@@ -291,9 +280,7 @@ namespace MySQL
           objectID = objectList[0].ID;
           return true;
         }
-
       }
-
     }
 
     private bool PromptForCreator(out int creatorID) {

@@ -10,9 +10,9 @@ namespace MySQL
     public string Name { get; }
 
     public Movie(int id, int publishingYear, string name) {
-        this.ID = id;
-        this.Name = name;
-        this.publishingYear = publishingYear;
+      this.ID = id;
+      this.Name = name;
+      this.publishingYear = publishingYear;
     }
 
   }

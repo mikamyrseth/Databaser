@@ -1,12 +1,12 @@
 namespace MySQL
 {
 
-    public interface IDatabaseObject
-    {
+  public interface IDatabaseObject
+  {
 
-        int ID { get; }
-        string Name { get; }
+    int ID { get; }
+    string Name { get; }
 
-    }
+  }
 
 }

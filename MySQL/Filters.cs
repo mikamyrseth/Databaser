@@ -70,16 +70,17 @@ namespace MySQL
 
   public class RangeFilter : Filter<int>
   {
-    private int _min;
+
     private int _max;
-    
+    private int _min;
+
     public RangeFilter(int min, int max) : base("Value must be between {min} and {max}") {
       this._min = min;
       this._max = max;
     }
 
     public override bool Condition(int subject) {
-      return subject >= _min && subject <= _max;
+      return subject >= this._min && subject <= this._max;
     }
 
   }
