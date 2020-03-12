@@ -25,12 +25,28 @@ namespace MySQL
       this._commands.Add("create category", this.CreateCategory);
       this._commands.Add("add category to movie", this.AddCategoryToMovie);
       this._commands.Add("see actor roles", this.SeeActorRoles);
+      this._commands.Add("see company with most movies in category", SeeCompanyWithMostMoviesInCategory);
       // There was an empty row here.
       //this._commands.Add("create series review", this.CreateSeriesReview);
       this._commands.Add("help", this.Help);
       this._commands.Add("exit", this.Quit);
       this._commands.Add("quit", this.Quit);
       this.Start();
+    }
+
+    private void SeeCompanyWithMostMoviesInCategory(){
+      Console.WriteLine("Please choose a company");
+      if(!this.PromptForDatabaseObject<Company>("selskapsnavn", "Filmselskap", out int companyID)){
+        return;
+      }
+
+      Console.WriteLine("Please choose a cateogry");
+      if(!this.PromptForDatabaseObject<Category>("kategoriNavn", "Kateogry", out int categoryID)){
+        return;
+      }
+
+      API.SeeCompanyWithMostMoviesInCategory(companyID, categoryID);
+      
     }
 
     private void SeeActorRoles() {

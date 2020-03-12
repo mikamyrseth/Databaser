@@ -65,6 +65,14 @@ namespace MySQL
       "   SkuespillerIFilm" +
       "   ON riktigkreatør.KreatørID = SkuespillerIFilm.KreatørID" +
       ");";
+      SQLFetch(sql);
+
+    }
+
+    public static void SeeCompanyWithMostMoviesInCategory(int companyID, int categoryID){
+      Console.WriteLine("The company with the most movies in the category is:");
+      string sql = "";
+      SQLFetch(sql);
 
     }
 
