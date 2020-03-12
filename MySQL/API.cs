@@ -55,6 +55,39 @@ namespace MySQL
       return list;
     }
 
+    public static void SeeActorRoles(int actorID){
+      Console.WriteLine($"The actor has had the follwing roles");
+      string sql = ""+
+      "SELECT rolle FROM ("+
+      " ("+
+      $"  SELECT KreatørID FROM Kreatør WHERE KreatørID = {actorID}"+
+      "   AS riktigkreatør JOIN" +
+      "   SkuespillerIFilm" +
+      "   ON riktigkreatør.KreatørID = SkuespillerIFilm.KreatørID" +
+      ");";
+
+    }
+
+    public static void SQLFetch(string sql){
+      MySqlConnection connection = null;
+      try {
+        connection = new MySqlConnection(ConnectionString);
+        connection.Open();
+
+        MySqlCommand command = new MySqlCommand(sql, connection);
+        MySqlDataReader reader = command.ExecuteReader();
+
+        while (reader.Read()) {
+          Console.WriteLine(reader.ToString());
+        }
+        reader.Close();
+      } catch (Exception e) {
+        Console.WriteLine(e);
+      } finally {
+        connection?.Close();
+      }
+    }
+    
     public static bool CreateNewMovie(string title, int publishingYear, int duration, string description, int directorID, int scriptWriterID) {
       string sql = $"INSERT INTO Film (filmTittel, utgivelesår, lengde, filmbeskrivelse) VALUES ('{title}', {publishingYear}, {duration}, '{description}');";
       long movieID = SQLInsert(sql);
