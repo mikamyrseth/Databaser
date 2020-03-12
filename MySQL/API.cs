@@ -9,28 +9,59 @@ namespace MySQL
   public static class API
   {
 
-    private const string connStr = "server=localhost;user=root;database=superduperdatabase;port=3306;password=root;";
+    private const string ConnectionString = "server=localhost;user=root;database=MySQL;port=3306;password=root;";
 
     public static Creator GetCreatorByID(int id) {
-      return new Creator(1, 1999, "Mika Myrseth");
+      Creator creator = new Creator();
+      creator.Initialize(1, 1999, "Mika Myrseth");
+      return creator;
     }
 
     public static List<Creator> GetCreatorsByName(string name) {
       List<Creator> creators = new List<Creator>();
-      creators.Add(new Creator(1, 1999, "Mika Myrseth"));
+      Creator creator = new Creator();
+      creator.Initialize(1, 1999, "Mika Myrseth");
+      creators.Add(creator);
       return creators;
     }
 
-    public static List<IDataBaseObject> GetObjectByName<IDataBaseObject>(string userInput, string tableName) { }
+    public static ICollection<T> GetObjectsByName<T>(string name, string columnName, string tableName)
+      where T : DatabaseObject, new() {
+      MySqlConnection connection = null;
+      List<T> list = new List<T>();
+      try {
+        connection = new MySqlConnection(ConnectionString);
+        connection.Open();
+
+        string query = $"SELECT * FROM {tableName} WHERE {tableName}.{columnName} = '{name}';";
+        MySqlCommand command = new MySqlCommand(query, connection);
+        MySqlDataReader reader = command.ExecuteReader();
+
+        while (reader.Read()) {
+          object[] fields = new object[reader.FieldCount];
+          for (int i = 0; i < fields.Length; i++) {
+            fields[i] = reader[i];
+          }
+          T @new = new T();
+          @new.Initialize(fields);
+          list.Add(@new);
+        }
+        reader.Close();
+      } catch (Exception e) {
+        Console.WriteLine(e);
+      } finally {
+        connection?.Close();
+      }
+      return list;
+    }
 
     public static bool CreateNewMovie(string title, int publishingYear, int duration, string description, int directorID, int scriptWriterID) {
-      MySqlConnection conn = new MySqlConnection(connStr);
+      MySqlConnection conn = new MySqlConnection(ConnectionString);
       bool SQLSuccess = true;
       try {
         Console.WriteLine("Connecting to MySQL...");
         conn.Open();
         string sql = $"INSERT INTO Film (filmTittel, utgivelesår, lengde, filmbeskrivelse) VALUES ('{title}', {publishingYear}, {duration}, '{description}');";
-        Console.WriteLine(sql);
         MySqlCommand cmd = new MySqlCommand(sql, conn);
         int rowsAffected = cmd.ExecuteNonQuery();
         if (rowsAffected != 1) {
@@ -39,8 +70,7 @@ namespace MySQL
 
         long movieID = cmd.LastInsertedId;
 
-        string sql2 = $"INSERT INTO RegissørIFilm (FilmID, KreatørID) VALUES ({movieID}, {directorID});INTO ManusforfatterIFilm (FilmID, KreatørID) VALUES ({movieID}, {scriptWriterID});";
-        Console.WriteLine(sql2);
+        string sql2 = $"INSERT INTO RegissørIFilm (FilmID, KreatørID) VALUES ({movieID}, {directorID});";
 
         cmd = new MySqlCommand(sql2, conn);
         int rowsAffected2 = cmd.ExecuteNonQuery();
@@ -50,7 +80,7 @@ namespace MySQL
 
         // string sql3 = $"INSERT INTO ManusforfatterIFilm (FilmID, KreatørID) VALUES ({movieID}, {scriptWriterID});";
         // Console.WriteLine(sql3);
-        // 
+// 
         // cmd = new MySqlCommand(sql3, conn);
         // int rowsAffected3 = cmd.ExecuteNonQuery();
         // if (rowsAffected3 != 1) {
