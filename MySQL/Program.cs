@@ -17,10 +17,32 @@ namespace MySQL
       this._commands.Add("create movie", this.CreateMovie);
       this._commands.Add("create creator", this.CreateCreator);
       this._commands.Add("add actor to movie", this.AddActorToMovie);
+      this._commands.Add("create company", this.CreateCompany);
       this._commands.Add("help", this.Help);
       this._commands.Add("exit", this.Quit);
       this._commands.Add("quit", this.Quit);
       this.Start();
+    }
+
+    private void CreateCompany(){
+      Console.WriteLine("Enter a name");
+      string companyName;
+      if(!this.PromptForString(out companyName, new MaxLengthFilter(40))){
+        return;
+      }
+      
+      Console.WriteLine("Enter a country");
+      int countryID;
+      if(!this.PromptForDatabaseObject<Country>("Land", out countryID)){
+        return;
+      }
+
+      if (API.CreateCompany(companyName, countryID)) {
+        Console.WriteLine("You have added a new Company 🙌");
+      } else {
+        Console.WriteLine("Oops. Something went hooribly wrong... 😢");
+      }  
+
     }
 
     private void AddActorToMovie(){
@@ -43,7 +65,7 @@ namespace MySQL
       }
 
       if (API.AddActorToMovie(creatorID, movieID, role)) {
-        Console.WriteLine("You have added a new movie 🙌");
+        Console.WriteLine("You have added actor to movie 🙌");
       } else {
         Console.WriteLine("Oops. Something went hooribly wrong... 😢");
       }      

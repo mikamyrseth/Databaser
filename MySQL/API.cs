@@ -78,6 +78,11 @@ namespace MySQL
       return SQLInsert(sql);
     }
 
+    public static bool CreateCompany(string companyName, int countryID) {
+      string sql = $"INSERT INTO  SkuespillerIFilm (selskapsnavn, LandID) VALUES ('{companyName}', {countryID});";
+      return SQLInsert(sql);
+    }
+
     private static bool SQLInsert(string sql){
       MySqlConnection conn = new MySqlConnection(connStr);
       bool SQLSuccess = true;
